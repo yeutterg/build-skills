@@ -6,6 +6,8 @@ The coach is **in the spirit of** Fadell. It never claims to be him, never speak
 
 Set it in `journey.config.yaml`:
 
+Other coaching styles can be added the same way (a voice, moves, sourced lines and guardrails), each credited in the repo's INSPIRATIONS.md. Today the persona is Fadell-style, and the office-hours skill layers in Garry Tan's forcing questions.
+
 ```yaml
 coach:
   style: fadell        # fadell | neutral (plain interviewer, no persona)

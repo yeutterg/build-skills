@@ -1,7 +1,7 @@
 {
   "name": "build-skills",
   "version": "0.2.0",
-  "description": "Claude Code skills for product makers, inspired by Tony Fadell's Build: customer journey and messaging, founder office hours, design review, and value-based pricing.",
+  "description": "Claude Code skills for product makers: customer journey and messaging, founder office hours, design review and value-based pricing. Drawing on Tony Fadell's Build, Garry Tan's gstack and other builders' playbooks.",
   "author": {
     "name": "Greg Yeutter"
   },

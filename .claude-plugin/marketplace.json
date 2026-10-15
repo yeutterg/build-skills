@@ -1,11 +1,13 @@
 {
   "name": "build-skills",
-  "owner": { "name": "Greg Yeutter" },
+  "owner": {
+    "name": "Greg Yeutter"
+  },
   "plugins": [
     {
       "name": "build-skills",
       "source": "./",
-      "description": "Customer journey mapping, messaging architecture and touchpoint audits, inspired by Tony Fadell's Build."
+      "description": "Claude Code skills for product makers: customer journey and messaging, founder office hours, design review and value-based pricing. Drawing on Tony Fadell's Build, Garry Tan's gstack and other builders' playbooks."
     }
   ]
 }

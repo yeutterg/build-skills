@@ -1,12 +1,14 @@
 ## build-skills
 
-Claude Code skills for people who make products, inspired by Tony Fadell's *Build: An Unorthodox Guide to Making Things Worth Making*. Unofficial and not affiliated with the author or publisher.
+Claude Code skills for people who make products: understand your customers, tell one clear story everywhere they meet you, review the work, price it, and keep yourself honest every week.
+
+The skills draw on builders' playbooks: Tony Fadell's *Build*, Garry Tan's gstack, Steve Krug, the value-pricing canon and others. See [INSPIRATIONS](INSPIRATIONS.md) for who, what we borrowed, and how it is credited. Unofficial; not affiliated with or endorsed by any of them.
 
 ### Skills
 
 | Skill | What it does |
 |---|---|
-| [customer-journey](skills/customer-journey/SKILL.md) | A Fadell-style coach interviews you in depth, separating facts from assumptions, about goals, products and customers (after crawling what is already public), keeps your messaging architecture and journey map as markdown, audits every touchpoint against them with automated and guided reviews, writes page and section briefs for a website rewrite, and tracks gaps as GitHub issues |
+| [customer-journey](skills/customer-journey/SKILL.md) | A coach (Fadell-style by default) interviews you in depth, separating facts from assumptions, about goals, products and customers (after crawling what is already public), keeps your messaging architecture and journey map as markdown, audits every touchpoint against them with automated and guided reviews, writes page and section briefs for a website rewrite, and tracks gaps as GitHub issues |
 | [office-hours](skills/office-hours/SKILL.md) | Weekly and ad-hoc founder check-ins: the one metric that matters, last week's assignment, forcing questions on demand and assumptions, and one real-world assignment |
 | [design-review](skills/design-review/SKILL.md) | Reviews a page, flow or marketing asset (site, Instagram, ads, email, packaging) for design and message: the one thing to take away, first impression, generic-copy tells, voice and claim checks, graded with a baseline |
 | [value-pricing](skills/value-pricing/SKILL.md) | Sets, tests and raises prices with value-based pricing: economic value, willingness to pay, intro vs list price, honest discounts, staged increases |
@@ -49,4 +51,4 @@ The example's `audit/` is a golden file; regenerate it with `journey.py run exam
 
 ### License
 
-[MIT](LICENSE). Some techniques are adapted from [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT); see [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md).
+[MIT](LICENSE). Credits for every idea we borrowed are in [INSPIRATIONS](INSPIRATIONS.md); license notices for adapted material (gstack, MIT) are in [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md).
