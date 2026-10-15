@@ -14,6 +14,10 @@ All inputs are markdown with YAML front matter (edit them in any editor, or Obsi
 | `github.project` | `{owner, number, status}`: adds issues to a Projects (v2) board and sets `Status` (default `Inbox`), `Workstream` and `Priority` (P1-P3) when those single-select fields and options exist |
 | `ignore` | List of `{fp, reason}`. `fp` is a finding fingerprint or issue group key from `audit/data/scan.json` |
 
+### company.md, products/*.md, customers/*.md
+
+Written in the interview (field-by-field comments in `templates/`). `company.md`: `name`, `url`, `one_liner`, `stage`, `goals` (`goal`, `metric`, `target`, `by`), `alternatives` (`name`, `why`, `our_edge`), `constraints`, `voice_guide`. Products: `id`, `name`, `aliases`, `status` (`current`, `upcoming`, `discontinued`), `review: draft` until confirmed, `generation`, `launch`, `price`, `url`, `personas`, `summary`, `proof`, `public`. Customers: `id`, `name`, `kind` (`icp`, `segment`, `persona`, `anti-persona`), `share`, `evidence`, `jobs`, `pains`, `triggers`, `objections`, `channels`, `quotes`. A message's `products` should match a product `id` or alias; `validate` warns when it does not. All three render to `audit/context.md`.
+
 ### messaging/**/*.md
 
 | Field | Meaning |

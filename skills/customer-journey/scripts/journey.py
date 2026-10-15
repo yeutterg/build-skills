@@ -15,6 +15,7 @@ Usage:
   journey.py render   <workspace> [--date YYYY-MM-DD]
   journey.py run      <workspace> [--date YYYY-MM-DD]     # validate + scan + render
   journey.py issues   <workspace> [--apply]               # dry-run unless --apply
+  journey.py crawl    <workspace> --url https://example.com # inventory a site and its products
 """
 
 from __future__ import annotations
@@ -28,6 +29,8 @@ import os
 import re
 import subprocess
 import sys
+import time
+import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
@@ -93,6 +96,7 @@ class Workspace:
         self._load_claims()
         self._load_activation()
         self._load_reviews()
+        self._load_context()
 
     # -- messaging architecture
     def _load_messages(self):
@@ -190,6 +194,27 @@ class Workspace:
                 self.errors.append(f"activation.md row '{cell}' does not match a message")
                 continue
             self.planned[mid] = {header[i] for i, c in enumerate(row[1:len(header) + 1]) if c in PLANNED_MARKS}
+
+    # -- company, products and customers (written by the interview)
+    def _load_context(self):
+        self.warnings: list[str] = []
+        cp = self.root / "company.md"
+        self.company = split_frontmatter(cp.read_text())[0] if cp.exists() else {}
+        self.products: dict[str, dict] = {}
+        self.customers: dict[str, dict] = {}
+        for folder, store in (("products", self.products), ("customers", self.customers)):
+            d = self.root / folder
+            for p in sorted(d.glob("*.md")) if d.exists() else []:
+                fm, _ = split_frontmatter(p.read_text())
+                if fm.get("id"):
+                    fm["_path"] = p.relative_to(self.root).as_posix()
+                    store[str(fm["id"])] = fm
+        if self.products:
+            known = {slug(k) for k in self.products} | {slug(a) for pr in self.products.values() for a in as_list(pr.get("aliases"))}
+            for mid, m in self.messages.items():
+                for pr in m["products"]:
+                    if slug(pr) not in known:
+                        self.warnings.append(f"message '{mid}' names product '{pr}', which is not an id or alias in products/")
 
     # -- guided reviews (human + AI sessions, one note per touchpoint per session)
     def _load_reviews(self):
@@ -780,7 +805,46 @@ class Renderer:
         for tp in self.ws.touchpoints:
             self.touchpoint(tp, [f for f in findings if tp["id"] in f["touchpoint"].split(",")])
         self.history(findings)
+        if self.ws.company or self.ws.products or self.ws.customers:
+            self.context()
         return self.files
+
+    def context(self):
+        f = self.p("context.md")
+        c = self.ws.company
+        L = ["## Company, products and customers", "", GENERATED, "Summarized from `company.md`, `products/` and `customers/` (built in the interview).", ""]
+        if c:
+            L += [f"### {c.get('name', self.ws.config.get('brand', 'Company'))}", ""]
+            for key, label in (("one_liner", "In one line"), ("stage", "Stage"), ("url", "Website")):
+                if c.get(key):
+                    L.append(f"- {label}: {c[key]}")
+            goals = as_list(c.get("goals"))
+            if goals:
+                L += ["", "| Goal | Metric | Target | By |", "|---|---|---|---|"]
+                for g in goals:
+                    g = g if isinstance(g, dict) else {"goal": g}
+                    L.append(f"| {g.get('goal', '')} | {g.get('metric', '')} | {g.get('target', '')} | {g.get('by', '')} |")
+            alts = as_list(c.get("alternatives"))
+            if alts:
+                L += ["", "**What customers use instead**", "", "| Alternative | Why people choose it | Our edge |", "|---|---|---|"]
+                for a in alts:
+                    a = a if isinstance(a, dict) else {"name": a}
+                    L.append(f"| {a.get('name', '')} | {a.get('why', '')} | {a.get('our_edge', '')} |")
+            L.append("")
+        if self.ws.products:
+            L += ["### Products", "", "| Product | Status | Generation | Launch | Price | For | Summary |", "|---|---|---|---|---|---|---|"]
+            order = {"current": 0, "upcoming": 1, "discontinued": 2}
+            for pid, pr in sorted(self.ws.products.items(), key=lambda kv: (order.get(kv[1].get("status", ""), 3), kv[1].get("name", kv[0]))):
+                draft = " *(draft)*" if pr.get("review") == "draft" else ""
+                personas = ", ".join(md_link(self.ws.customers[x].get("name", x), f, self.ws.customers[x]["_path"]) if x in self.ws.customers else str(x) for x in as_list(pr.get("personas")))
+                L.append(f"| {md_link(pr.get('name', pid), f, pr['_path'])}{draft} | {pr.get('status', '')} | {pr.get('generation', '')} | {pr.get('launch', '')} | {pr.get('price', '')} | {personas} | {str(pr.get('summary', '')).replace('|', '/')} |")
+            L.append("")
+        if self.ws.customers:
+            L += ["### Customers", "", "| Who | Kind | Share | Top pain | Where they find us |", "|---|---|---|---|---|"]
+            for cid, cu in sorted(self.ws.customers.items(), key=lambda kv: (kv[1].get("kind") != "icp", kv[0])):
+                pains = as_list(cu.get("pains"))
+                L.append(f"| {md_link(cu.get('name', cid), f, cu['_path'])} | {cu.get('kind', '')} | {cu.get('share', '')} | {str(pains[0]) if pains else ''} | {', '.join(map(str, as_list(cu.get('channels'))))} |")
+        self.files[f] = "\n".join(L) + "\n"
 
     def coverage(self) -> tuple[int, int]:
         cells = [st for row in self.r["matrix"].values() for st in row.values()]
@@ -832,6 +896,7 @@ class Renderer:
             "## Reports",
             "",
             f"- {md_link('Activation matrix', f, self.p('matrix.md'))}: planned vs observed messages per channel",
+            *([f"- {md_link('Company, products and customers', f, self.p('context.md'))}: goals, product line and who we serve"] if (self.ws.company or self.ws.products or self.ws.customers) else []),
             f"- {md_link('Messaging architecture', f, self.p('messaging.md'))}: why I want it, why I need it, and where each message shows up",
             f"- {md_link('All findings', f, self.p('findings.md'))}",
             f"- {md_link('History', f, self.p('history.md'))}",
@@ -1074,6 +1139,253 @@ class Renderer:
 
 
 # ---------------------------------------------------------------------------
+# Discovery crawl: inventory a public site and extract its products before the interview
+
+
+class _PageMeta(HTMLParser):
+    """Title, meta description, canonical, headings and JSON-LD from one HTML page."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.title, self.description, self.og_type, self.canonical = "", "", "", ""
+        self.h1, self.h2, self.ld = [], [], []
+        self._tag, self._buf, self._ld, self._skip = None, [], False, 0
+
+    def handle_starttag(self, tag, attrs):
+        a = {k: (v or "") for k, v in attrs}
+        if tag == "meta":
+            name = (a.get("name") or a.get("property") or "").lower()
+            if name in ("description", "og:description") and not self.description:
+                self.description = a.get("content", "")
+            elif name == "og:type":
+                self.og_type = a.get("content", "")
+        elif tag == "link" and a.get("rel", "").lower() == "canonical":
+            self.canonical = a.get("href", "")
+        elif tag == "script" and "ld+json" in a.get("type", ""):
+            self._ld, self._buf = True, []
+        elif tag in ("script", "style", "noscript"):
+            self._skip += 1
+        elif tag in ("title", "h1", "h2"):
+            self._tag, self._buf = tag, []
+
+    def handle_endtag(self, tag):
+        if tag == "script" and self._ld:
+            self.ld.append("".join(self._buf))
+            self._ld = False
+        elif tag in ("script", "style", "noscript"):
+            self._skip = max(0, self._skip - 1)
+        elif tag == self._tag:
+            text = re.sub(r"\s+", " ", "".join(self._buf)).strip()
+            if tag == "title":
+                self.title = text
+            elif text:
+                (self.h1 if tag == "h1" else self.h2).append(text)
+            self._tag = None
+
+    def handle_data(self, data):
+        if self._ld or (self._tag and not self._skip):
+            self._buf.append(data)
+
+
+def http_get(url: str, timeout: int = 20) -> str:
+    req = urllib.request.Request(url, headers={"User-Agent": f"{TOOL}/1.0 (+https://github.com/yeutterg/build-skills)", "Accept": "*/*"})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return resp.read().decode("utf-8", errors="replace")
+
+
+def sitemap_urls(base: str, limit: int) -> list[str]:
+    seen, urls, queue = set(), [], [base.rstrip("/") + "/sitemap.xml"]
+    while queue and len(urls) < limit:
+        sm = queue.pop(0)
+        if sm in seen:
+            continue
+        seen.add(sm)
+        try:
+            xml = http_get(sm)
+        except Exception:  # noqa: BLE001
+            continue
+        locs = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", xml)
+        if "<sitemapindex" in xml:
+            queue += [html.unescape(u) for u in locs]
+        else:
+            urls += [html.unescape(u) for u in locs if not re.search(r"\.(jpe?g|png|gif|webp|svg|pdf)(\?|$)", u, re.I)]
+    return list(dict.fromkeys(urls))[:limit]
+
+
+def ld_products(blocks: list[str]) -> list[dict]:
+    out = []
+
+    def walk(node):
+        if isinstance(node, list):
+            for n in node:
+                walk(n)
+        elif isinstance(node, dict):
+            types = as_list(node.get("@type"))
+            if any(str(t).lower() in ("product", "productgroup") for t in types):
+                offers = as_list(node.get("offers"))
+                offer = offers[0] if offers and isinstance(offers[0], dict) else {}
+                brand = node.get("brand")
+                out.append({
+                    "name": node.get("name", ""),
+                    "description": strip_markup(str(node.get("description", ""))),
+                    "sku": node.get("sku", ""),
+                    "brand": brand.get("name", "") if isinstance(brand, dict) else str(brand or ""),
+                    "price": offer.get("price") or offer.get("lowPrice") or "",
+                    "currency": offer.get("priceCurrency", ""),
+                    "availability": str(offer.get("availability", "")).rsplit("/", 1)[-1],
+                    "url": node.get("url", ""),
+                })
+            for v in node.values():
+                if isinstance(v, (dict, list)):
+                    walk(v)
+
+    for b in blocks:
+        try:
+            walk(json.loads(b))
+        except json.JSONDecodeError:
+            continue
+    return out
+
+
+def shopify_products(base: str) -> list[dict]:
+    """Shopify stores expose published products at /products.json. Other platforms simply return nothing."""
+    out, page = [], 1
+    while page <= 10:
+        try:
+            data = json.loads(http_get(f"{base.rstrip('/')}/products.json?limit=250&page={page}"))
+        except Exception:  # noqa: BLE001
+            break
+        items = data.get("products", []) if isinstance(data, dict) else []
+        if not items:
+            break
+        for p in items:
+            prices = sorted({float(v["price"]) for v in p.get("variants", []) if v.get("price")})
+            out.append({
+                "handle": p.get("handle", ""),
+                "name": p.get("title", ""),
+                "description": strip_markup(p.get("body_html") or ""),
+                "category": p.get("product_type", ""),
+                "brand": p.get("vendor", ""),
+                "tags": p.get("tags", []) if isinstance(p.get("tags"), list) else [t.strip() for t in str(p.get("tags", "")).split(",") if t.strip()],
+                "price": (f"{prices[0]:g}" if len(prices) == 1 else f"{prices[0]:g}-{prices[-1]:g}") if prices else "",
+                "variants": len(p.get("variants", [])),
+                "url": f"{base.rstrip('/')}/products/{p.get('handle', '')}",
+                "published_at": (p.get("published_at") or "")[:10],
+            })
+        page += 1
+    return out
+
+
+PAGE_KINDS = [
+    ("product", r"/products?/"), ("collection", r"/collections?/|/shop\b|/category/"), ("blog", r"/blogs?/|/news/|/articles?/|/posts?/"),
+    ("support", r"faq|help|support|contact|warranty|returns|shipping|troubleshoot"), ("about", r"about|story|mission|team|press"),
+    ("legal", r"privacy|terms|polic|legal|regulatory|patent|accessibility|ccpa"), ("account", r"/account|/cart|/checkout|/login"),
+]
+KIND_STAGE = {"product": "education", "collection": "education", "blog": "education", "support": "support", "about": "awareness",
+              "legal": "education", "account": "acquisition", "page": "education", "home": "awareness"}
+
+
+def page_kind(url: str, og_type: str) -> str:
+    path = urllib.parse.urlparse(url).path
+    if path in ("", "/"):
+        return "home"
+    if og_type.lower() == "product":
+        return "product"
+    for kind, rx in PAGE_KINDS:
+        if re.search(rx, path, re.I):
+            return kind
+    return "page"
+
+
+def crawl(base: str, max_pages: int, delay: float = float(os.environ.get("JOURNEY_CRAWL_DELAY", "0.3"))) -> dict:
+    base = base.rstrip("/")
+    urls = sitemap_urls(base, max_pages) or [base + "/"]
+    pages, ld_found = [], []
+    for u in urls:
+        try:
+            body = http_get(u)
+        except Exception as e:  # noqa: BLE001
+            pages.append({"url": u, "error": str(e)[:120]})
+            continue
+        m = _PageMeta()
+        m.feed(body)
+        prods = ld_products(m.ld)
+        for p in prods:
+            p.setdefault("url", u)
+            p["url"] = p["url"] or u
+        ld_found += prods
+        pages.append({
+            "url": u, "kind": page_kind(u, m.og_type), "title": m.title, "description": m.description.strip(),
+            "h1": m.h1[:2], "h2": m.h2[:6], "products": [p["name"] for p in prods],
+        })
+        time.sleep(delay)
+    shop = shopify_products(base)
+    products: dict[str, dict] = {}
+    for p in shop:
+        products[p["handle"]] = {**p, "source": "shopify products.json"}
+    for p in ld_found:
+        handle = slug(urllib.parse.urlparse(p["url"]).path.rstrip("/").rsplit("/", 1)[-1] or p["name"])
+        if handle in products:
+            products[handle].setdefault("sku", p.get("sku"))
+            products[handle]["availability"] = p.get("availability", "")
+        else:
+            products[handle] = {**p, "handle": handle, "source": "schema.org JSON-LD"}
+    return {"base": base, "pages": pages, "products": [products[k] for k in sorted(products)], "platform": "shopify" if shop else "unknown"}
+
+
+def cmd_crawl(root: Path, url: str, max_pages: int, date: str):
+    root = root.resolve()
+    out = root / "discovery"
+    out.mkdir(parents=True, exist_ok=True)
+    print(f"crawl: {url} (up to {max_pages} pages)")
+    res = crawl(url, max_pages)
+    res["date"] = date
+    (out / "crawl.json").write_text(json.dumps(res, indent=1, ensure_ascii=False, sort_keys=True) + "\n")
+    ok = [p for p in res["pages"] if "error" not in p]
+    kinds: dict[str, list] = {}
+    for p in ok:
+        kinds.setdefault(p["kind"], []).append(p)
+
+    gen = "> [!NOTE]\n> Generated by `customer-journey crawl`. Re-crawl to refresh; the interview turns this into inputs.\n"
+    L = ["## Site inventory", "", gen, f"Crawled {res['base']} on {date}: {len(ok)} pages, {len(res['pages']) - len(ok)} errors. Platform: {res['platform']}.", ""]
+    L += ["| Kind | Pages | Suggested stage |", "|---|---|---|"]
+    L += [f"| {k} | {len(v)} | {KIND_STAGE.get(k, '')} |" for k, v in sorted(kinds.items(), key=lambda kv: -len(kv[1]))]
+    for k, v in sorted(kinds.items()):
+        L += ["", f"### {k.title()} ({len(v)})", "", "| Page | Title | H1 | Meta description |", "|---|---|---|---|"]
+        for p in sorted(v, key=lambda p: p["url"]):
+            path = urllib.parse.urlparse(p["url"]).path or "/"
+            cells = [f"[{path}]({p['url']})", p["title"], " / ".join(p["h1"]), p["description"][:160]]
+            L.append("| " + " | ".join(c.replace("|", "\\|").replace("\n", " ") for c in cells) + " |")
+    (out / "site.md").write_text("\n".join(L) + "\n")
+
+    P = ["## Products found", "", gen, f"{len(res['products'])} products from {res['base']}.", "",
+         "| Product | Price | Category | Source | Draft file |", "|---|---|---|---|---|"]
+    pdir = root / "products"
+    existing = {}
+    for f in pdir.glob("*.md") if pdir.exists() else []:
+        fm, _ = split_frontmatter(f.read_text())
+        for key in [fm.get("id"), fm.get("url"), *as_list(fm.get("aliases"))]:
+            if key:
+                existing[str(key)] = f
+    created = 0
+    for p in res["products"]:
+        known = existing.get(p["handle"]) or existing.get(p.get("url", ""))
+        target = known or pdir / f"{p['handle']}.md"
+        if not known:
+            pdir.mkdir(exist_ok=True)
+            fm = {"id": p["handle"], "name": p["name"], "status": "current", "review": "draft", "url": p.get("url", ""),
+                  "price": str(p.get("price", "")), "category": p.get("category", ""), "aliases": [], "generation": "",
+                  "personas": [], "summary": "", "source": p["source"]}
+            body = f"Draft created from the {date} crawl. Confirm, merge duplicates (bundles, preorders, variants) and fill in the rest during the interview.\n\n### Description as published\n\n{p.get('description', '')[:2000]}\n"
+            target.write_text("---\n" + yaml.safe_dump(fm, sort_keys=False, allow_unicode=True, width=1000) + "---\n\n" + body)
+            existing[p["handle"]] = target
+            created += 1
+        P.append(f"| [{p['name']}]({p.get('url', '')}) | {p.get('price', '')} | {p.get('category', '')} | {p['source']} | [{target.name}](../products/{target.name}) |")
+    (out / "products.md").write_text("\n".join(P) + "\n")
+    print(f"crawl: {len(ok)} pages, {len(res['products'])} products ({created} new draft product files) -> discovery/")
+
+
+# ---------------------------------------------------------------------------
 # GitHub issues
 
 
@@ -1211,6 +1523,8 @@ def write_files(ws: Workspace, files: dict[str, str]):
 def cmd_validate(ws: Workspace) -> bool:
     for e in ws.errors:
         print(f"error: {e}")
+    for w in ws.warnings:
+        print(f"warning: {w}")
     print(f"{len(ws.messages)} messages, {len(ws.touchpoints)} touchpoints, {len(ws.channels)} channels, {len(ws.rules)} claim rules, "
           f"{len(ws.planned)} activation rows: {'OK' if not ws.errors else f'{len(ws.errors)} errors'}")
     return not ws.errors
@@ -1246,11 +1560,21 @@ def cmd_render(ws: Workspace, date: str):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="journey.py", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["validate", "scan", "render", "run", "issues"])
+    ap.add_argument("command", choices=["validate", "scan", "render", "run", "issues", "crawl"])
     ap.add_argument("workspace", type=Path)
     ap.add_argument("--date", default=dt.date.today().isoformat())
     ap.add_argument("--apply", action="store_true", help="issues: actually create/update/close GitHub issues")
+    ap.add_argument("--url", help="crawl: site to inventory (default: url in company.md)")
+    ap.add_argument("--max-pages", type=int, default=150, help="crawl: page limit")
     a = ap.parse_args(argv)
+    if a.command == "crawl":
+        url = a.url
+        if not url and (a.workspace / "company.md").exists():
+            url = split_frontmatter((a.workspace / "company.md").read_text())[0].get("url")
+        if not url:
+            sys.exit("crawl needs --url (or url: in company.md)")
+        cmd_crawl(a.workspace, url, a.max_pages, a.date)
+        return
     ws = Workspace(a.workspace)
     if a.command == "validate":
         sys.exit(0 if cmd_validate(ws) else 1)

@@ -63,6 +63,7 @@ Stages: [Awareness](stages/awareness.md) · [Education](stages/education.md) · 
 ## Reports
 
 - [Activation matrix](matrix.md): planned vs observed messages per channel
+- [Company, products and customers](context.md): goals, product line and who we serve
 - [Messaging architecture](messaging.md): why I want it, why I need it, and where each message shows up
 - [All findings](findings.md)
 - [History](history.md)
