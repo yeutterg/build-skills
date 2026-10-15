@@ -1529,20 +1529,29 @@ def issue_groups(ws: Workspace, findings: list[dict]) -> dict[str, dict]:
         f, n = g["first"], len(g["findings"])
         sev = min((x["severity"] for x in g["findings"]), key=lambda s: SEVERITIES.index(s) if s in SEVERITIES else 9)
         msg = ws.messages.get(f.get("message", ""), {})
+        tps = sorted({t for x in g["findings"] for t in x["touchpoint"].split(",") if t})
+        affected = ", ".join(next((t["name"] for t in ws.touchpoints if t["id"] == tid), tid) for tid in tps[:6]) + (f" and {len(tps) - 6} more" if len(tps) > 6 else "")
+        approved = ", ".join(f"\"{a}\"" for a in msg.get("approved", []))
+        # Problem / context / solution, kept short; the locations below hold the detail
         if f["check"] == "retired":
             title = f"Retired wording \"{f['phrase']}\" ({msg.get('title', '')}) in {n} location{'s' * (n != 1)}"
-            why = f"`{msg.get('title')}` retired this wording. Approved: " + ", ".join(f"\"{a}\"" for a in msg.get("approved", [])) + "."
+            problem = f"Copy still says \"{f['phrase']}\", which {msg.get('title', 'this message')} retired."
+            solution = f"Replace it with approved wording: {approved}." if approved else "Remove or rewrite it."
         elif f["check"] == "claim":
             rule = next((r for r in ws.rules if r["id"] == f["rule"]), {})
             title = f"Claim guardrail `{f['rule']}`: {n} location{'s' * (n != 1)}"
-            why = rule.get("reason", "") + (f"\n\nSuggested: {rule['suggest']}" if rule.get("suggest") else "")
+            problem = rule.get("reason", "") or f"Copy breaks the `{f['rule']}` guardrail."
+            solution = rule.get("suggest", "") or "Rewrite or remove the flagged wording."
         elif f["check"] == "missing":
             chans = sorted({ws.channel_ids.get(x["channel"], x["channel"]) for x in g["findings"]})
             title = f"Missing message: {msg.get('title', f['message'])} not on {', '.join(chans)}"
-            why = "The activation matrix plans this message here, but no collected touchpoint carries it. Approved: " + ", ".join(f"\"{a}\"" for a in msg.get("approved", [])) + "."
+            problem = f"{msg.get('title', f['message'])} is planned for {', '.join(chans)} but no page there carries it."
+            solution = f"Add it with approved wording: {approved}." if approved else "Add the message."
         else:
             title = f.get("title") or f"{f['check']}: {f['touchpoint']}"
-            why = f.get("detail", "")
+            problem = f.get("title", "")
+            solution = f.get("detail", "")
+        context = f"{n} location{'s' * (n != 1)}, severity {sev}, {f['check']} check. Affects: {affected or 'n/a'} ({f.get('stage', '')} stage, {f.get('workstream', '')})."
         rows = "\n".join(
             f"- [ ] `{x['location']}` ({x['touchpoint']}): {x['excerpt']}" if x["excerpt"] else f"- [ ] `{x['location']}` ({x['touchpoint']})"
             for x in g["findings"][:60]
@@ -1550,8 +1559,8 @@ def issue_groups(ws: Workspace, findings: list[dict]) -> dict[str, dict]:
         if n > 60:
             rows += f"\n- …and {n - 60} more (see the audit report)"
         body = (
-            f"**Severity:** {sev} · **Check:** {f['check']} · **Stage:** {f.get('stage', '')} · **Workstream:** {f.get('workstream', '')}\n\n"
-            f"{why}\n\n### Locations\n\n{rows}\n\n"
+            f"**Problem:** {problem}\n\n**Context:** {context}\n\n**Solution:** {solution}\n\n"
+            f"<details><summary>Locations</summary>\n\n{rows}\n\n</details>\n\n"
             f"<sub>Opened by `{TOOL}`. Closes automatically when a later audit no longer finds it. "
             f"To accept it, close as *not planned* or add the key to `ignore` in journey.config.yaml.</sub>\n"
             f"<!-- {TOOL}:{key} -->"

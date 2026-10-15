@@ -129,7 +129,7 @@ Write the brief before anyone writes copy or designs a page. Follow `docs/brief.
 
 ### issues
 
-`journey.py issues <ws>` prints the plan (create / update / reopen / close) as a dry run. Show it, ask, then re-run with `--apply`. One issue per group (one retired phrase, one claim rule, one missing message), labelled `customer-journey`, added to the configured GitHub project with Status, Workstream and Priority when those fields exist. Issues close themselves when a later run no longer finds the problem. Closed-as-not-planned issues are left alone.
+`journey.py issues <ws>` prints the plan (create / update / reopen / close) as a dry run. Issue bodies use a short **Problem / Context / Solution** format (context names who or what is affected), with locations folded underneath. Show it, ask, then re-run with `--apply`. One issue per group (one retired phrase, one claim rule, one missing message), labelled `customer-journey`, added to the configured GitHub project with Status, Workstream and Priority when those fields exist. Issues close themselves when a later run no longer finds the problem. Closed-as-not-planned issues are left alone.
 
 ### listen (weekly)
 
