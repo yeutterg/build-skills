@@ -10,6 +10,24 @@
 - Status: ok (1 files, 4 text units)
 - Last guided review: [2026-10-14](../../reviews/2026-10-14-pdp-pour.md) (needs-work)
 
+### Executive summary
+
+**Key findings**
+
+- Carries 2 of 3 messages planned for Product page
+- Not here: [Quiet boil](../../messaging/pillars/quiet-boil.md)
+- 🔴 Product page never says why temperature matters before selling precision
+- 🔴 `health-claim` claims
+- 🟠 Quiet boil is missing from Product page
+- 🟠 Retired wording "Precision heating technology" (Perfect temperature)
+
+**Recommended improvements**
+
+1. Product page never says why temperature matters before selling precision ([Acme Pour product page](pdp-pour.md)): Open with the scorched-tea pain (one sentence) before the feature. Sam to draft; Claude to check against the Perfect temperature grid.
+2. Remove `health-claim` wording (1 location: [Acme Pour product page](pdp-pour.md)). Describe the experience (taste, temperature), not a health outcome.
+3. Add [Quiet boil](../../messaging/pillars/quiet-boil.md) to Product page: "Boils at a whisper"
+4. Replace "Precision heating technology" with "Exact to the degree" (1 location: [Acme Pour product page](pdp-pour.md))
+
 ### Messages detected
 
 | Message | Approved | Signals | Retired | Planned here |

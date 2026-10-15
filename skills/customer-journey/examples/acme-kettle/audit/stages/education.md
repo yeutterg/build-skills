@@ -5,6 +5,23 @@
 
 [Back to journey](../README.md)
 
+### Executive summary
+
+**Key findings**
+
+- 1 of 1 touchpoints collected; 5 findings
+- 🔴 Product page never says why temperature matters before selling precision: 1 location in [Acme Pour product page](../touchpoints/pdp-pour.md)
+- 🔴 `health-claim` claims: 1 location in [Acme Pour product page](../touchpoints/pdp-pour.md)
+- 🟠 Quiet boil is missing from Product page
+- 🟠 Retired wording "Precision heating technology" (Perfect temperature): 1 location in [Acme Pour product page](../touchpoints/pdp-pour.md)
+
+**Recommended improvements**
+
+1. Product page never says why temperature matters before selling precision ([Acme Pour product page](../touchpoints/pdp-pour.md)): Open with the scorched-tea pain (one sentence) before the feature. Sam to draft; Claude to check against the Perfect temperature grid.
+2. Remove `health-claim` wording (1 location: [Acme Pour product page](../touchpoints/pdp-pour.md)). Describe the experience (taste, temperature), not a health outcome.
+3. Add [Quiet boil](../../messaging/pillars/quiet-boil.md) to Product page: "Boils at a whisper"
+4. Replace "Precision heating technology" with "Exact to the degree" (1 location: [Acme Pour product page](../touchpoints/pdp-pour.md))
+
 ### Touchpoints
 
 | Touchpoint | Channel | Workstream | Status | Messages present | Findings |

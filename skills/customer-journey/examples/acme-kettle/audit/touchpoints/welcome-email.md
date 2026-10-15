@@ -10,6 +10,16 @@
 - Status: ok (1 files, 3 text units)
 - Last guided review: never
 
+### Executive summary
+
+**Key findings**
+
+- Carries 2 of 2 messages planned for Email
+
+**Recommended improvements**
+
+1. Schedule a guided review with `/customer-journey review`
+
 ### Messages detected
 
 | Message | Approved | Signals | Retired | Planned here |

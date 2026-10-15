@@ -5,6 +5,16 @@
 
 [Back to journey](../README.md)
 
+### Executive summary
+
+**Key findings**
+
+- No touchpoints mapped to this stage yet
+
+**Recommended improvements**
+
+- Nothing urgent. Keep the cadence of guided reviews.
+
 ### Touchpoints
 
 No touchpoints mapped to this stage yet.

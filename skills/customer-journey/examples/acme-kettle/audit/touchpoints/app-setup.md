@@ -10,6 +10,21 @@
 - Status: ok (1 files, 3 text units)
 - Last guided review: never
 
+### Executive summary
+
+**Key findings**
+
+- Carries 0 of 2 messages planned for App
+- Not here: [Product name](../../messaging/name-pour.md), [Perfect temperature](../../messaging/pillars/perfect-temperature.md)
+- 🔴 Perfect temperature is missing from App
+- 🔴 Retired wording "SmartKettle" (Product name)
+
+**Recommended improvements**
+
+1. Add [Perfect temperature](../../messaging/pillars/perfect-temperature.md) to App: "Exact to the degree"
+2. Replace "SmartKettle" with "Acme Pour" (1 location: [App setup strings](app-setup.md))
+3. Schedule a guided review with `/customer-journey review`
+
 ### Messages detected
 
 | Message | Approved | Signals | Retired | Planned here |

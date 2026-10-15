@@ -5,6 +5,20 @@
 
 [Back to journey](../README.md)
 
+### Executive summary
+
+**Key findings**
+
+- 2 of 2 touchpoints collected; 2 findings
+- 🔴 Perfect temperature is missing from App
+- 🔴 Retired wording "SmartKettle" (Product name): 1 location in [App setup strings](../touchpoints/app-setup.md)
+
+**Recommended improvements**
+
+1. Add [Perfect temperature](../../messaging/pillars/perfect-temperature.md) to App: "Exact to the degree"
+2. Replace "SmartKettle" with "Acme Pour" (1 location: [App setup strings](../touchpoints/app-setup.md))
+3. Review together: [Welcome email](../touchpoints/welcome-email.md), [App setup strings](../touchpoints/app-setup.md)
+
 ### Touchpoints
 
 | Touchpoint | Channel | Workstream | Status | Messages present | Findings |

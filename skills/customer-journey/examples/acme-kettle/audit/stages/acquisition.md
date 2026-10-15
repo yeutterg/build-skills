@@ -5,6 +5,16 @@
 
 [Back to journey](../README.md)
 
+### Executive summary
+
+**Key findings**
+
+- 0 of 1 touchpoints collected; 0 findings
+
+**Recommended improvements**
+
+1. Make collectable: [Retail box](../touchpoints/box.md)
+
 ### Touchpoints
 
 | Touchpoint | Channel | Workstream | Status | Messages present | Findings |

@@ -40,6 +40,7 @@ except ImportError:  # pragma: no cover
 TOOL = "customer-journey"
 DEFAULT_STAGES = ["awareness", "education", "acquisition", "product", "onboarding", "usage", "support", "loyalty"]
 SEVERITIES = ["high", "medium", "low"]
+SEV_WEIGHT = {"high": 9, "medium": 3, "low": 1}
 SEV_ICON = {"high": "🔴", "medium": "🟠", "low": "🟡"}
 CELL = {
     "ok": "✅",  # planned and present
@@ -626,6 +627,98 @@ class Renderer:
         self.ws, self.r, self.issues, self.date = ws, result, issues, date
         self.out_rel = ws.out.relative_to(ws.root).as_posix()
         self.files: dict[str, str] = {}
+        self.pages: dict[str, dict] = {}  # page key -> basis, for summaries written by the judgment pass
+        sp = ws.data / "summaries.json"
+        self.summaries = json.loads(sp.read_text()) if sp.exists() else {}
+        hp = ws.data / "history.json"
+        prior = [h for h in (json.loads(hp.read_text()) if hp.exists() else []) if h["date"] < date]
+        self.previous = max(prior, key=lambda h: h["date"]) if prior else None
+
+    # -- executive summaries
+
+    def ranked_groups(self, findings: list[dict]) -> list[list[dict]]:
+        groups: dict[str, list[dict]] = {}
+        for x in findings:
+            groups.setdefault(x["group"], []).append(x)
+        return sorted(groups.values(), key=lambda g: (-max(SEV_WEIGHT.get(x["severity"], 0) for x in g), -len(g), self.group_label(g[0])))
+
+    def group_label(self, f: dict) -> str:
+        m = self.ws.messages.get(f.get("message", ""), {})
+        if f["check"] == "retired":
+            return f"retired wording \"{f['phrase']}\" ({m.get('title', f['message'])})"
+        if f["check"] == "claim":
+            return f"`{f['rule']}` claims"
+        if f["check"] == "missing":
+            return f"{m.get('title', f['message'])} is missing"
+        return f.get("title") or f["check"]
+
+    def where(self, g: list[dict], from_file: str, limit: int = 3) -> str:
+        tids = []
+        for x in g:
+            for t in x["touchpoint"].split(","):
+                if t and t not in tids:
+                    tids.append(t)
+        links = [self.tp_link(t, from_file) for t in tids[:limit]]
+        return ", ".join(links) + (f" and {len(tids) - limit} more" if len(tids) > limit else "")
+
+    def recommend(self, g: list[dict], from_file: str) -> str:
+        f, n = g[0], len(g)
+        locs = f"{n} location{'s' * (n != 1)}"
+        issue = f" {self.issue_ref(f)}" if self.issue_ref(f) else ""
+        if f["check"] == "retired":
+            to = f" with \"{f['suggest']}\"" if f.get("suggest") else ""
+            return f"Replace \"{f['phrase']}\"{to} ({locs}: {self.where(g, from_file)}){issue}"
+        if f["check"] == "claim":
+            rule = next((r for r in self.ws.rules if r["id"] == f["rule"]), {})
+            how = rule.get("suggest") or rule.get("reason", "")
+            return f"Remove `{f['rule']}` wording ({locs}: {self.where(g, from_file)}). {how}".rstrip() + issue
+        if f["check"] == "missing":
+            m = self.ws.messages.get(f["message"], {})
+            chans = ", ".join(sorted({self.ws.channel_ids.get(x["channel"], x["channel"]) for x in g}))
+            return f"Add {self.msg_link(f['message'], from_file)} to {chans}" + (f": \"{f['suggest']}\"" if f.get("suggest") else "") + issue
+        detail = f": {f['detail']}" if f.get("detail") else ""
+        return f"{f.get('title', f['check'])} ({self.where(g, from_file)}){detail}{issue}"
+
+    def summary(self, key: str, from_file: str, findings: list[dict], facts: list[str], extra_recs: list[str] | None = None, show_where: bool = True) -> list[str]:
+        """Bulleted executive summary. Uses the judgment pass's summary when it was written for exactly these findings."""
+        basis = fingerprint(*sorted(x["fp"] for x in findings))
+        self.pages[key] = {"basis": basis, "file": from_file, "findings": len(findings)}
+        L = ["### Executive summary", ""]
+        ai = self.summaries.get(key)
+        if ai and ai.get("basis") == basis:
+            L += ["**Key findings**", ""] + [f"- {b}" for b in ai.get("key_findings", [])]
+            L += ["", "**Recommended improvements**", ""] + [f"{i}. {b}" for i, b in enumerate(ai.get("recommendations", []), 1)]
+            return L + [""]
+        groups = self.ranked_groups(findings)
+        key_lines = list(facts)
+        for g in groups[:4]:
+            n, first = len(g), g[0]
+            label = self.group_label(first)
+            label = label[:1].upper() + label[1:]
+            if first["check"] == "missing":
+                chans = ", ".join(sorted({self.ws.channel_ids.get(x["channel"], x["channel"]) for x in g}))
+                line = f"{label} from {chans}"
+            elif show_where:
+                line = f"{label}: {n} location{'s' * (n != 1)} in {self.where(g, from_file)}"
+            else:
+                line = f"{label}" + (f" ({n} locations)" if n > 1 else "")
+            key_lines.append(f"{SEV_ICON.get(first['severity'], '')} {line}")
+        recs = [self.recommend(g, from_file) for g in groups if g[0]["severity"] in ("high", "medium")][:5]
+        recs += extra_recs or []
+        L += ["**Key findings**", ""] + [f"- {b}" for b in key_lines]
+        L += ["", "**Recommended improvements**", ""] + ([f"{i}. {b}" for i, b in enumerate(recs, 1)] or ["- Nothing urgent. Keep the cadence of guided reviews."])
+        return L + [""]
+
+    def planned_here(self, tp: dict) -> list[str]:
+        """Approved messages planned for this touchpoint's channel that apply to its products."""
+        tprods = {slug(x) for x in as_list(tp.get("products"))}
+        out = []
+        for mid, chans in self.ws.planned.items():
+            m = self.ws.messages[mid]
+            mprods = {slug(x) for x in m["products"]}
+            if tp["channel"] in chans and m["status"] == "approved" and not (tprods and mprods and not tprods & mprods):
+                out.append(mid)
+        return sorted(out, key=lambda x: (int(self.ws.messages[x].get("priority", 3)), x))
 
     # paths relative to workspace root
     def p(self, *parts) -> str:
@@ -679,7 +772,7 @@ class Renderer:
     def render(self) -> dict[str, str]:
         findings = self.r["findings"]
         self.readme(findings)
-        self.matrix()
+        self.matrix(findings)
         self.messaging()
         self.findings_page(findings)
         for s in self.ws.stages:
@@ -706,6 +799,9 @@ class Renderer:
             "|---|---|---|---|---|",
             f"| {len(findings)} | {counts['high']} | {counts['medium']} | {counts['low']} | {ok}/{total} planned cells on-message |",
             "",
+        ]
+        L += self.summary("README", f, findings, self.readme_facts(findings), self.readme_recs(f))
+        L += [
             "## Journey",
             "",
             "```mermaid",
@@ -754,10 +850,56 @@ class Renderer:
         L += ["", "## Top findings", ""] + self.findings_table(top or findings[:15], f)
         self.files[f] = "\n".join(L) + "\n"
 
-    def matrix(self):
+    def readme_facts(self, findings: list[dict]) -> list[str]:
+        facts = []
+        counts = {s: sum(1 for x in findings if x["severity"] == s) for s in SEVERITIES}
+        line = f"{len(findings)} findings: {counts['high']} high, {counts['medium']} medium, {counts['low']} low"
+        if self.previous:
+            delta = len(findings) - self.previous["total"]
+            line += f" ({'+' if delta > 0 else ''}{delta} since {self.previous['date']})"
+        facts.append(line)
+        ok, total = self.coverage()
+        if total:
+            facts.append(f"{ok} of {total} planned message placements are on-message ({round(100 * ok / total)}%)")
+        by_stage = sorted(
+            ((sum(SEV_WEIGHT.get(x["severity"], 0) for x in findings if x["stage"] == s), s) for s in self.ws.stages), reverse=True
+        )
+        worst = [self.stage_title(s) for w, s in by_stage if w][:2]
+        if worst:
+            facts.append(f"Weakest stages: {' and '.join(worst)}")
+        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] != "ok"]
+        if blind:
+            facts.append(f"{len(blind)} of {len(self.ws.touchpoints)} touchpoints are blind spots the audit cannot read yet")
+        return facts
+
+    def readme_recs(self, from_file: str) -> list[str]:
+        recs = []
+        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] != "ok"]
+        if blind:
+            order = {s: i for i, s in enumerate(["acquisition", "onboarding", "awareness", "education", "support", "loyalty", "usage", "product"])}
+            blind.sort(key=lambda t: (order.get(t["stage"], 9), t["name"]))
+            recs.append("Make blind spots collectable, starting with " + ", ".join(self.tp_link(t["id"], from_file) for t in blind[:3]))
+        never = [t for t in self.ws.touchpoints if not self.ws.last_review(t["id"]) and self.r["touchpoints"][t["id"]]["status"] == "ok"]
+        if never:
+            weight = lambda t: sum(SEV_WEIGHT.get(x["severity"], 0) for x in self.r["findings"] if t["id"] in x["touchpoint"].split(","))
+            first = max(never, key=lambda t: (weight(t), t["name"]))
+            recs.append(f"Run a guided review of {self.tp_link(first['id'], from_file)} ({len(never)} collected touchpoints have never been reviewed)")
+        return recs
+
+    def matrix(self, findings: list[dict] | None = None):
         f = self.p("matrix.md")
         chans = list(self.ws.channel_ids)
         L = ["## Activation matrix", "", GENERATED]
+        cells = [(mid, c, st) for mid, row in self.r["matrix"].items() for c, st in row.items()]
+        gaps = {}
+        for mid, c, st in cells:
+            if st in ("missing", "stale"):
+                gaps.setdefault(c, []).append(mid)
+        facts = [f"{self.ws.channel_ids[c]}: {len(v)} message{'s' * (len(v) != 1)} missing or in retired wording" for c, v in sorted(gaps.items(), key=lambda kv: (-len(kv[1]), kv[0]))[:4]]
+        blind = sorted({c for _, c, st in cells if st == "blind"})
+        if blind:
+            facts.append("Not collected yet, so unknown: " + ", ".join(self.ws.channel_ids[c] for c in blind))
+        L += self.summary("matrix", f, [x for x in (findings or []) if x["check"] in ("missing", "retired")], facts)
         L += [
             "Planned (from `activation.md`) vs observed (from collected touchpoints).",
             "",
@@ -823,7 +965,18 @@ class Renderer:
     def stage(self, s, findings):
         f = self.p("stages", f"{s}.md")
         tps = [t for t in self.ws.touchpoints if t["stage"] == s]
-        L = [f"## {self.stage_title(s)}", "", GENERATED, md_link("Back to journey", f, self.p("README.md")), "", "### Touchpoints", ""]
+        L = [f"## {self.stage_title(s)}", "", GENERATED, md_link("Back to journey", f, self.p("README.md")), ""]
+        col = [t for t in tps if self.r["touchpoints"][t["id"]]["status"] == "ok"]
+        facts = [f"{len(col)} of {len(tps)} touchpoints collected; {len(findings)} findings"] if tps else ["No touchpoints mapped to this stage yet"]
+        recs = []
+        blind = [t for t in tps if t not in col]
+        if blind:
+            recs.append("Make collectable: " + ", ".join(self.tp_link(t["id"], f) for t in blind))
+        never = [t for t in col if not self.ws.last_review(t["id"])]
+        if never:
+            recs.append("Review together: " + ", ".join(self.tp_link(t["id"], f) for t in never[:3]))
+        L += self.summary(f"stage:{s}", f, findings, facts, recs)
+        L += ["### Touchpoints", ""]
         if tps:
             L += ["| Touchpoint | Channel | Workstream | Status | Messages present | Findings |", "|---|---|---|---|---|---|"]
             for t in tps:
@@ -852,7 +1005,22 @@ class Renderer:
         L.append(f"- Last guided review: {self.review_cell(tp['id'], f)}")
         if tp.get("notes"):
             L.append(f"- Notes: {tp['notes']}")
-        L += ["", "### Messages detected", ""]
+        L.append("")
+        planned = self.planned_here(tp)
+        facts, recs = [], []
+        if d["status"] != "ok":
+            facts.append(f"Not collected ({d['status']}), so the audit cannot see what customers see here")
+            recs.append("Add a source (file glob, URL, or pasted text) in `journey.md`")
+        else:
+            here = [m for m in planned if m in d["present"]]
+            gone = [m for m in planned if m not in d["present"]]
+            facts.append(f"Carries {len(here)} of {len(planned)} messages planned for {self.ws.channel_ids.get(tp['channel'], tp['channel'])}")
+            if gone:
+                facts.append("Not here: " + ", ".join(self.msg_link(m, f) for m in gone[:6]) + (f" and {len(gone) - 6} more" if len(gone) > 6 else ""))
+        if not self.ws.last_review(tp["id"]):
+            recs.append("Schedule a guided review with `/customer-journey review`")
+        L += self.summary(f"touchpoint:{tp['id']}", f, findings, facts, recs, show_where=False)
+        L += ["### Messages detected", ""]
         if d["hits"]:
             L += ["| Message | Approved | Signals | Retired | Planned here |", "|---|---|---|---|---|"]
             for mid in sorted(d["hits"]):
@@ -1072,6 +1240,7 @@ def cmd_render(ws: Workspace, date: str):
                     old.unlink()
     write_files(ws, files)
     (ws.data / "history.json").write_text(json.dumps(r.history_rows, indent=1) + "\n")
+    (ws.data / "pages.json").write_text(json.dumps(r.pages, indent=1, sort_keys=True) + "\n")
     print(f"render: wrote {len(files)} pages to {ws.out.relative_to(ws.root)}/")
 
 

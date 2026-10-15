@@ -35,9 +35,10 @@ Run the CLI with `uv run <skill-dir>/scripts/journey.py <command> <workspace>` (
 1. `journey.py validate`, fix input errors with the user before continuing.
 2. `journey.py scan`: deterministic checks (approved, signal and retired wording per touchpoint; claim guardrails; planned-but-missing messages).
 3. **Judgment pass** (below). Write `audit/data/semantic.json`.
-4. `journey.py render`: regenerates `audit/`.
-5. Summarize for the user from `git diff --stat` and the README: findings by severity vs last run, new blind spots, the 3-5 most important fixes. Link `audit/README.md`.
-6. Offer to commit (`audit: <n> findings (<delta>), <headline>`) and to sync issues. Do not do either without a yes.
+4. `journey.py render`: regenerates `audit/`. Every page opens with a bulleted executive summary built from the data.
+5. **Executive summaries.** Read `audit/data/pages.json` (one entry per page: key, file, basis). For the README, the matrix and each stage page, rewrite the summary in plain language with recommendations ranked by business impact, and write them to `audit/data/summaries.json` as `{"<key>": {"basis": "<basis from pages.json>", "key_findings": [...], "recommendations": [...]}}`. Then run `render` again. A summary whose basis no longer matches (because the findings changed) is ignored and the data-built summary shows instead, so never copy a basis forward without re-reading the findings. Bullets: lead with the consequence for the customer, name the touchpoint, keep each to one line, at most five per list. Markdown links are fine; use paths relative to the page's file.
+6. Summarize for the user from `git diff --stat` and the README: findings by severity vs last run, new blind spots, the 3-5 most important fixes. Link `audit/README.md`.
+7. Offer to commit (`audit: <n> findings (<delta>), <headline>`) and to sync issues. Do not do either without a yes.
 
 ### Judgment pass
 

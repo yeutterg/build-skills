@@ -5,6 +5,20 @@
 
 [Back to journey](../README.md)
 
+### Executive summary
+
+**Key findings**
+
+- 1 of 2 touchpoints collected; 2 findings
+- 🔴 Retired wording "Acme Kettle Pro" (Product name): 1 location in [Homepage](../touchpoints/home.md)
+- 🟡 `superlative` claims: 1 location in [Homepage](../touchpoints/home.md)
+
+**Recommended improvements**
+
+1. Replace "Acme Kettle Pro" with "Acme Pour" (1 location: [Homepage](../touchpoints/home.md))
+2. Make collectable: [Instagram](../touchpoints/instagram.md)
+3. Review together: [Homepage](../touchpoints/home.md)
+
 ### Touchpoints
 
 | Touchpoint | Channel | Workstream | Status | Messages present | Findings |

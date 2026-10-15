@@ -11,6 +11,17 @@
 - Last guided review: never
 - Notes: Dieline PDF lives with the packaging vendor. Export text to collect it.
 
+### Executive summary
+
+**Key findings**
+
+- Not collected (not collected), so the audit cannot see what customers see here
+
+**Recommended improvements**
+
+1. Add a source (file glob, URL, or pasted text) in `journey.md`
+2. Schedule a guided review with `/customer-journey review`
+
 ### Messages detected
 
 None.

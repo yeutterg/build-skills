@@ -1,0 +1,82 @@
+{
+ "README": {
+  "basis": "45e2c215f7",
+  "file": "audit/README.md",
+  "findings": 9
+ },
+ "matrix": {
+  "basis": "e9253d817c",
+  "file": "audit/matrix.md",
+  "findings": 5
+ },
+ "stage:acquisition": {
+  "basis": "da39a3ee5e",
+  "file": "audit/stages/acquisition.md",
+  "findings": 0
+ },
+ "stage:awareness": {
+  "basis": "5d6ded7097",
+  "file": "audit/stages/awareness.md",
+  "findings": 2
+ },
+ "stage:education": {
+  "basis": "8ce3aec626",
+  "file": "audit/stages/education.md",
+  "findings": 5
+ },
+ "stage:loyalty": {
+  "basis": "da39a3ee5e",
+  "file": "audit/stages/loyalty.md",
+  "findings": 0
+ },
+ "stage:onboarding": {
+  "basis": "cf47404884",
+  "file": "audit/stages/onboarding.md",
+  "findings": 2
+ },
+ "stage:product": {
+  "basis": "da39a3ee5e",
+  "file": "audit/stages/product.md",
+  "findings": 0
+ },
+ "stage:support": {
+  "basis": "da39a3ee5e",
+  "file": "audit/stages/support.md",
+  "findings": 0
+ },
+ "stage:usage": {
+  "basis": "da39a3ee5e",
+  "file": "audit/stages/usage.md",
+  "findings": 0
+ },
+ "touchpoint:app-setup": {
+  "basis": "cf47404884",
+  "file": "audit/touchpoints/app-setup.md",
+  "findings": 2
+ },
+ "touchpoint:box": {
+  "basis": "da39a3ee5e",
+  "file": "audit/touchpoints/box.md",
+  "findings": 0
+ },
+ "touchpoint:home": {
+  "basis": "5d6ded7097",
+  "file": "audit/touchpoints/home.md",
+  "findings": 2
+ },
+ "touchpoint:instagram": {
+  "basis": "da39a3ee5e",
+  "file": "audit/touchpoints/instagram.md",
+  "findings": 0
+ },
+ "touchpoint:pdp-pour": {
+  "basis": "8ce3aec626",
+  "file": "audit/touchpoints/pdp-pour.md",
+  "findings": 5
+ },
+ "touchpoint:welcome-email": {
+  "basis": "da39a3ee5e",
+  "file": "audit/touchpoints/welcome-email.md",
+  "findings": 0
+ }
+}

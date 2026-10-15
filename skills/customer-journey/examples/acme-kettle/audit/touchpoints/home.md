@@ -10,6 +10,19 @@
 - Status: ok (1 files, 4 text units)
 - Last guided review: never
 
+### Executive summary
+
+**Key findings**
+
+- Carries 4 of 4 messages planned for Website
+- 🔴 Retired wording "Acme Kettle Pro" (Product name)
+- 🟡 `superlative` claims
+
+**Recommended improvements**
+
+1. Replace "Acme Kettle Pro" with "Acme Pour" (1 location: [Homepage](home.md))
+2. Schedule a guided review with `/customer-journey review`
+
 ### Messages detected
 
 | Message | Approved | Signals | Retired | Planned here |

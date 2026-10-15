@@ -77,3 +77,7 @@ One note per guided review session (see `templates/review.md`).
 ### audit/data/semantic.json
 
 Written by the skill's judgment pass. Array of `{check, severity, title, touchpoint, location, excerpt, detail, message?}`.
+
+### audit/data/pages.json and summaries.json
+
+`render` writes `pages.json`: one entry per page with an executive summary (`README`, `matrix`, `stage:<id>`, `touchpoint:<id>`), giving its file and a `basis` hash of the findings on that page. The judgment pass may write `summaries.json` with `{key: {basis, key_findings, recommendations}}`; a page uses it only while its basis matches, otherwise it falls back to the summary computed from the data.
