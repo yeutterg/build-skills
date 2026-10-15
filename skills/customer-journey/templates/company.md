@@ -12,6 +12,8 @@ one_metric:               # the one metric that matters
   why: ""
   drivers:                # what multiplies into it
     - {driver: "", target: "", baseline: ""}
+secondary_metrics:        # watched, not targeted; they explain the health behind the one metric
+  - {metric: "", why: "", baseline: ""}
 goals:
   - goal: ""
     metric: ""

@@ -12,6 +12,8 @@ one_metric:
   drivers:
     - {driver: Product page sessions, target: "40,000 a month", baseline: "11,000 a month"}
     - {driver: Conversion rate, target: "2.5%", baseline: "2.0%"}
+secondary_metrics:
+  - {metric: "Returns within 30 days", why: "Early sign the product disappoints", baseline: "4%"}
 goals:
   - goal: Prove repeat demand from specialty tea drinkers
     metric: Orders from returning customers

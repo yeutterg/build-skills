@@ -889,6 +889,10 @@ class Renderer:
                 for key, label in (("target", "Target"), ("stretch", "Stretch"), ("by", "By"), ("baseline", "Today"), ("why", "Why this metric")):
                     if omtm.get(key):
                         L.append(f"- {label}: {omtm[key]}")
+                seconds = [m for m in as_list(c.get("secondary_metrics")) if isinstance(m, dict) and m.get("metric")]
+                if seconds:
+                    L += ["", "**Secondary metrics (watched, not targeted)**", "", "| Metric | Why | Today |", "|---|---|---|"]
+                    L += [f"| {m.get('metric', '')} | {m.get('why', '')} | {m.get('baseline', '')} |" for m in seconds]
                 drivers = as_list(omtm.get("drivers"))
                 if drivers:
                     L += ["", "| Driver | Target | Today |", "|---|---|---|"]

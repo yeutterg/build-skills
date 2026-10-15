@@ -18,6 +18,12 @@ Summarized from `company.md`, `products/` and `customers/` (built in the intervi
 - Today: 220 a month
 - Why this metric: Repeat demand from tea drinkers is the thing to prove at v1
 
+**Secondary metrics (watched, not targeted)**
+
+| Metric | Why | Today |
+|---|---|---|
+| Returns within 30 days | Early sign the product disappoints | 4% |
+
 | Driver | Target | Today |
 |---|---|---|
 | Product page sessions | 40,000 a month | 11,000 a month |

@@ -50,7 +50,8 @@ The first answer is the rehearsed one. Ask again, narrower: "You said owners lov
 
 ### 1. Open (5 minutes)
 
-- **The number.** Read `one_metric` and ask for the latest value. Show progress against target and pace: "Target $1M by the date. At today's pace you land at X." If there is no metric yet, the first agenda item is choosing one (see the customer-journey interview, phase 1).
+- **The number.** Read `one_metric` and ask for the latest value. Keep it simple: report the one number plainly, with no extra conditions attached. Show progress against target and pace: "Target $1M by the date. At today's pace you land at X." If there is no metric yet, the first agenda item is choosing one (see the customer-journey interview, phase 1).
+- **Secondary metrics.** Glance at `secondary_metrics` (watched, not targeted). Raise one only if it moved enough to threaten the one metric.
 - **Last assignment.** Done, partly done, or not done? What did it teach? Record the result against the assumption it was testing.
 - **What changed** since last time: launches, numbers, customer conversations, surprises.
 
