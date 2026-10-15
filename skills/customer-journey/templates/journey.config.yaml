@@ -5,4 +5,9 @@ roots:
 # github:
 #   repo: your-org/your-repo
 #   project: {owner: your-org, number: 1, status: Inbox}
+# Interview coach (docs/coach.md): style fadell | neutral, intensity gentle | direct | relentless
+coach:
+  style: fadell
+  intensity: direct
+
 ignore: []

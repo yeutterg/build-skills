@@ -6,7 +6,7 @@ Claude Code skills for people who make products, inspired by Tony Fadell's *Buil
 
 | Skill | What it does |
 |---|---|
-| [customer-journey](skills/customer-journey/SKILL.md) | Interviews you in depth about goals, products and customers (after crawling what is already public), keeps your messaging architecture and journey map as markdown, audits every touchpoint against them with automated and guided reviews, and tracks gaps as GitHub issues |
+| [customer-journey](skills/customer-journey/SKILL.md) | A Fadell-style coach interviews you in depth, separating facts from assumptions, about goals, products and customers (after crawling what is already public), keeps your messaging architecture and journey map as markdown, audits every touchpoint against them with automated and guided reviews, and tracks gaps as GitHub issues |
 
 ### How it works
 

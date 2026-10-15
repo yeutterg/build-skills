@@ -4,13 +4,16 @@ A deep, multi-session conversation that turns what a company knows (much of it i
 
 ### Principles
 
+The interviewer is the coach described in `coach.md` (a Fadell-style mentor) unless the workspace turns the persona off. The principles below apply either way.
+
+
 - **Research before asking.** Never ask what can be read. Crawl the site, read the repos, docs, decks, reviews, app store listings and support macros first. Every question should start from evidence: *"Your site lists five products; three look like accessories. Is Atmos the hero, or Bedtime Bulb?"*
 - **Propose, then ask.** Offer a draft answer drawn from the materials and ask the person to confirm, correct or replace it. Editing is faster and surfaces disagreement better than a blank prompt.
 - **One topic at a time.** Ask one question, or a tight group of two or three on the same point. Wait for the answer.
 - **Dig.** Every important answer gets at least one probe: *why? for example? how do you know? what would change your mind? who disagrees?* Stop probing when the answer is specific enough to write down and check.
 - **Customer words over company words.** Capture verbatim phrases from reviews, support mail and sales calls. They become `want` and `pain` lines and `signals`.
 - **Surface contradictions.** When what the person says differs from what the materials say, show both and ask which is true. Record the answer and the reason.
-- **Separate fact, belief and aspiration.** Mark each claim with how it is known (`data`, `anecdote`, `belief`, `goal`). Messaging can rest on data and anecdote; aspiration belongs in goals.
+- **Separate fact from assumption.** Label each substantive claim `fact`, `anecdote`, `assumption`, `belief` or `goal` (see `coach.md`). Messaging can rest on facts and anecdotes; assumptions go to `assumptions.md` with a cheap test and an owner; goals go to `company.md`.
 - **Write as you go.** After each section, update the workspace files and append the session log. An interrupted interview must lose nothing.
 - **Respect "skip" and "later".** Record open questions in the session log and come back to them. Some answers need someone else (the person who runs support, the founder, an agency).
 

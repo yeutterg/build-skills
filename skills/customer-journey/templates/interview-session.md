@@ -9,7 +9,7 @@ status: draft             # done at the end of the session
 
 ## Decisions
 
-| Decision | Why | How we know (data, anecdote, belief, goal) |
+| Decision | Why | How we know (fact, anecdote, assumption, belief, goal) |
 |---|---|---|
 
 ## Quotes worth keeping

@@ -17,6 +17,7 @@ Last run: 2026-10-15
 - 6 of 11 planned message placements are on-message (55%)
 - Weakest stages: Education and Onboarding
 - 2 of 6 touchpoints are blind spots the audit cannot read yet
+- 1 open assumption behind the messaging still needs testing
 - 🔴 Perfect temperature is missing from App
 - 🔴 Product page never says why temperature matters before selling precision: 1 location in [Acme Pour product page](touchpoints/pdp-pour.md)
 - 🔴 `health-claim` claims: 1 location in [Acme Pour product page](touchpoints/pdp-pour.md)
@@ -63,7 +64,7 @@ Stages: [Awareness](stages/awareness.md) · [Education](stages/education.md) · 
 ## Reports
 
 - [Activation matrix](matrix.md): planned vs observed messages per channel
-- [Company, products and customers](context.md): goals, product line and who we serve
+- [Company, products and customers](context.md): goals, product line, who we serve, and open assumptions
 - [Messaging architecture](messaging.md): why I want it, why I need it, and where each message shows up
 - [All findings](findings.md)
 - [History](history.md)

@@ -202,6 +202,8 @@ class Workspace:
         self.company = split_frontmatter(cp.read_text())[0] if cp.exists() else {}
         self.products: dict[str, dict] = {}
         self.customers: dict[str, dict] = {}
+        ap = self.root / "assumptions.md"
+        self.assumptions = [a for a in as_list(split_frontmatter(ap.read_text())[0].get("assumptions")) if isinstance(a, dict)] if ap.exists() else []
         for folder, store in (("products", self.products), ("customers", self.customers)):
             d = self.root / folder
             for p in sorted(d.glob("*.md")) if d.exists() else []:
@@ -805,7 +807,7 @@ class Renderer:
         for tp in self.ws.touchpoints:
             self.touchpoint(tp, [f for f in findings if tp["id"] in f["touchpoint"].split(",")])
         self.history(findings)
-        if self.ws.company or self.ws.products or self.ws.customers:
+        if self.ws.company or self.ws.products or self.ws.customers or self.ws.assumptions:
             self.context()
         return self.files
 
@@ -844,6 +846,15 @@ class Renderer:
             for cid, cu in sorted(self.ws.customers.items(), key=lambda kv: (kv[1].get("kind") != "icp", kv[0])):
                 pains = as_list(cu.get("pains"))
                 L.append(f"| {md_link(cu.get('name', cid), f, cu['_path'])} | {cu.get('kind', '')} | {cu.get('share', '')} | {str(pains[0]) if pains else ''} | {', '.join(map(str, as_list(cu.get('channels'))))} |")
+            L.append("")
+        if self.ws.assumptions:
+            open_ = [a for a in self.ws.assumptions if a.get("status", "open") == "open"]
+            L += ["### Assumptions", "", f"{len(open_)} open of {len(self.ws.assumptions)} recorded. Messaging that rests on an open assumption is a bet, not a fact.", "",
+                  "| Assumption | Status | Evidence so far | How to test | Owner | Affects |", "|---|---|---|---|---|---|"]
+            order = {"open": 0, "testing": 1, "confirmed": 2, "rejected": 3}
+            for a in sorted(self.ws.assumptions, key=lambda a: (order.get(a.get("status", "open"), 9), str(a.get("claim", "")))):
+                cells = [a.get("claim", ""), a.get("status", "open"), a.get("evidence", ""), a.get("test", ""), a.get("owner", ""), ", ".join(map(str, as_list(a.get("affects"))))]
+                L.append("| " + " | ".join(str(x).replace("|", "/") for x in cells) + " |")
         self.files[f] = "\n".join(L) + "\n"
 
     def coverage(self) -> tuple[int, int]:
@@ -896,7 +907,7 @@ class Renderer:
             "## Reports",
             "",
             f"- {md_link('Activation matrix', f, self.p('matrix.md'))}: planned vs observed messages per channel",
-            *([f"- {md_link('Company, products and customers', f, self.p('context.md'))}: goals, product line and who we serve"] if (self.ws.company or self.ws.products or self.ws.customers) else []),
+            *([f"- {md_link('Company, products and customers', f, self.p('context.md'))}: goals, product line, who we serve, and open assumptions"] if (self.ws.company or self.ws.products or self.ws.customers or self.ws.assumptions) else []),
             f"- {md_link('Messaging architecture', f, self.p('messaging.md'))}: why I want it, why I need it, and where each message shows up",
             f"- {md_link('All findings', f, self.p('findings.md'))}",
             f"- {md_link('History', f, self.p('history.md'))}",
@@ -935,6 +946,10 @@ class Renderer:
         blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] != "ok"]
         if blind:
             facts.append(f"{len(blind)} of {len(self.ws.touchpoints)} touchpoints are blind spots the audit cannot read yet")
+        open_ = [a for a in self.ws.assumptions if a.get("status", "open") == "open"]
+        if open_:
+            n = len(open_)
+            facts.append(f"{n} open assumption{'s' * (n != 1)} behind the messaging still need{'s' * (n == 1)} testing")
         return facts
 
     def readme_recs(self, from_file: str) -> list[str]:

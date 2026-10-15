@@ -15,4 +15,9 @@ roots:
 #   project: {owner: your-org, number: 1, status: Inbox}
 
 # Accepted findings: put a finding `fp` or issue group key here with a reason.
+# Interview coach (docs/coach.md): style fadell | neutral, intensity gentle | direct | relentless
+coach:
+  style: fadell
+  intensity: direct
+
 ignore: []

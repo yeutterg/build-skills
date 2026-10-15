@@ -18,6 +18,10 @@ All inputs are markdown with YAML front matter (edit them in any editor, or Obsi
 
 Written in the interview (field-by-field comments in `templates/`). `company.md`: `name`, `url`, `one_liner`, `stage`, `goals` (`goal`, `metric`, `target`, `by`), `alternatives` (`name`, `why`, `our_edge`), `constraints`, `voice_guide`. Products: `id`, `name`, `aliases`, `status` (`current`, `upcoming`, `discontinued`), `review: draft` until confirmed, `generation`, `launch`, `price`, `url`, `personas`, `summary`, `proof`, `public`. Customers: `id`, `name`, `kind` (`icp`, `segment`, `persona`, `anti-persona`), `share`, `evidence`, `jobs`, `pains`, `triggers`, `objections`, `channels`, `quotes`. A message's `products` should match a product `id` or alias; `validate` warns when it does not. All three render to `audit/context.md`.
 
+`assumptions.md` front matter `assumptions`: `{claim, kind (assumption or belief), status (open, testing, confirmed, rejected), evidence, test, owner, affects, raised}`. Open assumptions are counted in the README summary and listed in `audit/context.md`.
+
+`journey.config.yaml` `coach`: `{style: fadell | neutral, intensity: gentle | direct | relentless}` sets the interviewer persona (`docs/coach.md`).
+
 ### messaging/**/*.md
 
 | Field | Meaning |

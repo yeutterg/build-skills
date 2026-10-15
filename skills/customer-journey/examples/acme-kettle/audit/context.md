@@ -35,3 +35,12 @@ Summarized from `company.md`, `products/` and `customers/` (built in the intervi
 | Who | Kind | Share | Top pain | Where they find us |
 |---|---|---|---|---|
 | [Specialty tea drinker](../customers/tea-enthusiast.md) | icp | 60% of orders (order export, 2026-09) | My sencha always tastes bitter | Search, Tea forums, Instagram |
+
+### Assumptions
+
+1 open of 2 recorded. Messaging that rests on an open assumption is a bet, not a fact.
+
+| Assumption | Status | Evidence so far | How to test | Owner | Affects |
+|---|---|---|---|---|---|
+| Specialty tea drinkers will pay a premium for one-degree accuracy | open | Founder conviction; no price test yet | Price A/B on the product page for 4 weeks | Sam | perfect-temperature, acme-pour |
+| Quiet boiling is a reason to buy, not just a nice-to-have | testing | Mentioned unprompted in 9 of 212 reviews | Ask 5 recent buyers to rank reasons they bought | Sam | quiet-boil |
