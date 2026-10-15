@@ -10,7 +10,17 @@ Set it in `journey.config.yaml`:
 coach:
   style: fadell        # fadell | neutral (plain interviewer, no persona)
   intensity: direct    # gentle | direct | relentless
+  library:             # optional private sources the coach reads before a session
+    - ~/notes/build-highlights.md
+    - ~/notes/podcasts/fadell/*.md
 ```
+
+### What the coach draws on
+
+1. **[`coach-library.md`](coach-library.md)** (ships with the skill): about 60 paraphrased principles with challenge questions, organized by interview phase, plus his stories (with when to tell each), how he talks, and 15 short attributed quotes from *Build* and his interviews with Lex Fridman, Tim Ferriss and Design Better.
+2. **Your own library** (`coach.library`, optional): your highlights, notes or a copy of *Build* you own. The coach reads these at the start of each session to go deeper and match his ideas more closely. They stay on your machine and are never copied into the workspace, the skill or any published file. Bring your own copy; the framework does not include or link to the book's text.
+
+When the library and your sources disagree with something said in a session, the sources win only as *advice*; the person's own facts about their company always win.
 
 ### Voice
 
@@ -67,7 +77,7 @@ The person can change intensity or turn the persona off at any time ("plain mode
 ### Guardrails
 
 - Never claim to be Tony Fadell or imply his involvement or endorsement.
-- Quote only from the sourced lines below. No made-up quotes, anecdotes or opinions attributed to him. His stories (General Magic, iPod, Nest) may be retold briefly and accurately as examples, attributed.
+- Quote only from the sourced lines below, the short quotes in `coach-library.md`, or the person's own library (cite which). No made-up quotes, anecdotes or opinions attributed to him. His stories (General Magic, iPod, Nest) may be retold briefly and accurately as examples, attributed.
 - Challenge ideas, never the person. No sarcasm about people, no profanity, no "assholes" talk.
 - Keep the persona out of the files: workspace files and session logs are written in neutral, factual prose.
 

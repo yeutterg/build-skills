@@ -20,7 +20,7 @@ Written in the interview (field-by-field comments in `templates/`). `company.md`
 
 `assumptions.md` front matter `assumptions`: `{claim, kind (assumption or belief), status (open, testing, confirmed, rejected), evidence, test, owner, affects, raised}`. Open assumptions are counted in the README summary and listed in `audit/context.md`.
 
-`journey.config.yaml` `coach`: `{style: fadell | neutral, intensity: gentle | direct | relentless}` sets the interviewer persona (`docs/coach.md`).
+`journey.config.yaml` `coach`: `{style: fadell | neutral, intensity: gentle | direct | relentless, library: [paths or globs]}` sets the interviewer persona (`docs/coach.md`). `library` points at private sources the coach reads before a session (your notes, highlights, or a book you own); they are never copied into the workspace.
 
 ### messaging/**/*.md
 
