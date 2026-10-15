@@ -12,6 +12,7 @@ These skills stand on other builders' playbooks. Each entry says what we borrowe
 | Sean Ellis | The product-market fit survey | "How would you feel if you could no longer use it?" with the 40% "very disappointed" benchmark | `customer-journey` interview and assumption tests, `office-hours` | Cited |
 | Alistair Croll and Benjamin Yoskovitz | *Lean Analytics* | The one metric that matters | `customer-journey` interview, `office-hours` | Cited |
 | Paul Graham | ["Do Things That Don't Scale"](https://paulgraham.com/ds.html) (2013) | Early on, recruit and delight customers by hand; the daily one-thing check prefers founder-only, unscalable actions | `office-hours` today mode | Cited |
+| Eliyahu Goldratt; Toyota | *The Goal* (theory of constraints); the Toyota Production System | Find the single bottleneck, improve it, file the fix, repeat | `office-hours` now and not now | Cited |
 | Amazon | Working Backwards | Writing the press release before building | `customer-journey` interview and brief | Cited |
 
 ### Adding an inspiration

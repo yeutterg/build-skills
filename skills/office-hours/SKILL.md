@@ -20,6 +20,7 @@ Reads before every session:
 - `assumptions.md` (open and testing items)
 - the latest `interview/*.md` and `office-hours/*.md` logs: open questions and the last assignment
 - `products/`, `customers/`, `voice.md` as needed for the agenda
+- `focus.md` if present: the current one thing, the Now list and the Not now list
 - `founder.md` if present: the founder's strengths, what they are growing into, and what makes the work enjoyable for them. Coach to it: stretch them where they are growing, and design assignments they will want to do
 
 Writes:
@@ -53,9 +54,21 @@ The first answer is the rehearsed one. Ask again, narrower: "You said owners lov
 
 1. Read `one_metric`, `goals` (nearest dates first), open assumptions, the last assignment, and anything new (the latest `listening/` report, audit high findings, CRM or inbox signals the founder mentions).
 2. Pick ONE action, sized for today, that moves the nearest goal or tests the riskiest open assumption. Prefer things that do not scale and that only the founder can do (a personal email to five owners, fixing the top request, asking three happy owners for a review) over planning or tooling.
-3. Say why it beats the next-best option in one sentence, and what done looks like tonight.
+3. Say why it beats the next-best option in one sentence, and what done looks like tonight. Name one tempting thing it is *not* (from the Not now list, or a new one) so the founder can let it go today.
 4. If `founder.md` says what makes the work enjoyable, shape the action that way (the right tool, a ritual, a visible score).
 5. Append a short entry to `office-hours/today.md`: date, the one thing, why, and tomorrow's result when they report it. No full session log, no diagnostic, unless the founder asks to go deeper.
+
+## Now and not now
+
+Every session, daily or weekly, ends with focus, kept in `<workspace>/focus.md` (from `templates/focus.md`):
+
+- **The one thing right now:** the action that most moves the nearest goal.
+- **Now:** at most three active efforts.
+- **Not now:** things we could do but deliberately will not, each with why and when to revisit (a date or a trigger, such as "after 20 sales"). Saying no out loud preserves energy and stops the scatter.
+
+Weekly: review both lists, promote at most one item from Not now, and move anything stalled back. Daily: read the lists, pick the one thing, and catch new temptations before they turn into work. When the founder is about to build or polish tools instead of doing the messy direct work (contacting customers, shipping the fix), name it and put it on Not now.
+
+**Find the bottleneck.** When the one metric stalls, ask which single step limits throughput (Goldratt's theory of constraints; Toyota's continuous improvement): leads, replies, conversion, supply, or the founder's own time. Work on that step only, file the fix as an issue, and check it next week.
 
 ## Session flow
 

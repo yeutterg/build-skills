@@ -16,6 +16,7 @@ The framework is generic. Everything company-specific lives in a **workspace** (
 <workspace>/
   journey.config.yaml     brand, source roots, GitHub repo/project, ignores
   company.md              goals, stage, alternatives, constraints (interview)
+  focus.md                the one thing right now, Now and Not now lists (office hours keeps it)
   founder.md              the founder's strengths, growth goals and what makes the work enjoyable (optional; coach reads it)
   voice.md                the brand voice guide, master copy (interview, reviews and copy tools keep it current)
   products/*.md           current and upcoming products (crawl drafts, confirmed in the interview)
