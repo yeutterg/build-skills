@@ -20,7 +20,7 @@ Summarized from `company.md`, `products/` and `customers/` (built in the intervi
 
 | Driver | Target | Today |
 |---|---|---|
-| Product page sessions | 40 | 11 |
+| Product page sessions | 40,000 a month | 11,000 a month |
 | Conversion rate | 2.5% | 2.0% |
 
 | Goal | Metric | Target | By |

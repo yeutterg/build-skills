@@ -10,8 +10,8 @@ one_metric:
   baseline: 220 a month
   why: Repeat demand from tea drinkers is the thing to prove at v1
   drivers:
-    - {driver: Product page sessions, target: 40,000 a month, baseline: 11,000 a month}
-    - {driver: Conversion rate, target: 2.5%, baseline: 2.0%}
+    - {driver: Product page sessions, target: "40,000 a month", baseline: "11,000 a month"}
+    - {driver: Conversion rate, target: "2.5%", baseline: "2.0%"}
 goals:
   - goal: Prove repeat demand from specialty tea drinkers
     metric: Orders from returning customers
