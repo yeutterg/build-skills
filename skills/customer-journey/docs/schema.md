@@ -55,6 +55,8 @@ Front matter keys: `stages` (ordered list, default Fadell's eight), `channels` (
 | `workstream` | Free text; mapped onto the GitHub project's Workstream field |
 | `source` | One source or a list of them: `{root, glob, exclude}` files, `{type: url, url}`, `{type: text, text}`, or `{type: manual}` |
 | `notes` | Shown on the touchpoint page |
+| `status` | `planned` for a page that does not exist yet (a rewrite); listed under Planned pages, not as a blind spot. Add a source once it exists |
+| `replaces` | Id of the current touchpoint a planned one replaces |
 
 A files source may add `skip_keys`, a regex of JSON keys that hold labels or settings rather than customer copy (for example a theme's editor-only section names).
 

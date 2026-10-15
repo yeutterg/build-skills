@@ -1,7 +1,7 @@
 ---
 name: customer-journey
 description: Audit every customer touchpoint (website, product pages, email, app, packaging, social, support, marketplaces) against a messaging architecture, find gaps, stale wording, risky claims and inconsistencies across the customer journey, and track fixes as GitHub issues. Based on Tony Fadell's Build (customer journey and touchpoints, the why-I-want-it / why-I-need-it messaging architecture, and the messaging activation matrix). Use when the user wants to map their customer journey, be interviewed about their company, products and customers, build or update a messaging framework, check messaging consistency, audit touchpoints, find where old copy still lives, or run/refresh the journey audit. Output is Obsidian- and GitHub-compatible markdown committed to the repo.
-argument-hint: "[interview | run | review | issues | walk | init] [workspace path]"
+argument-hint: "[interview | run | review | brief | issues | walk | init] [workspace path]"
 ---
 
 # Customer Journey
@@ -106,11 +106,23 @@ Guided reviews may use the coach too (`docs/coach.md`), at the configured intens
    5. *Proof:* are claims backed by the message's `proof`, and stated the way the guardrails allow?
    6. *Voice:* does it sound like the brand's voice guide?
    7. *Hand-off:* does it set up the next stage, and keep the promise the previous stage made?
+   8. *One thing:* what is the one thing someone should remember from this page, and from each section? Is it the right one, and does every section serve exactly one?
 4. **Propose fixes** as concrete rewrites in the brand voice. The human accepts, edits or rejects each one.
 5. **Record** the session in `reviews/<date>-<touchpoint>.md` from `templates/review.md`: verdict (`on-message`, `needs-work`, `off-message`), the agreed findings in front matter, the discussion and decisions in the body. Save it as `status: draft` as you go so an interrupted session is not lost; set `done` at the end.
 6. **Follow through.** Apply agreed changes to `messaging/` (new approved or retired wording, updated grid), re-run `render`, and offer to sync issues. Findings from the latest review of a touchpoint flow into issues like any other finding; an older review's findings drop out once a newer review supersedes it.
 
 Never record a finding or decision the human did not agree to. Review notes are inputs: they are never regenerated or overwritten.
+
+### brief (page and section briefs for a rewrite or a new asset)
+
+Write the brief before anyone writes copy or designs a page. Follow `docs/brief.md`; use `templates/brief.md`. Work with the human, one page at a time:
+
+1. **Gather.** Read `company.md` (one metric, category, trademarks, role models), `customers/`, `products/`, `messaging/` (approved wording and the want / pain / painkiller grids), `activation.md`, `claims.md`, `voice.md`, `assumptions.md`, `journey.md`, and the audit findings for the page being replaced. New pages are added to `journey.md` as touchpoints with `status: planned`.
+2. **Ask the forcing question:** what is the ONE thing someone should remember from this page? Then ask it again for every section. A section with no takeaway is cut; a section with two is split.
+3. **Order the story:** pain before painkiller, the journey hand-offs (what the previous stage promised, what the next stage needs), and an emotional arc storyboarded as scenes with a mood.
+4. **Choose SAFE and RISK:** what the category expects, and at least two deliberate risks that make the page memorable.
+5. **Rate each brief section 0 to 10** and say what would make it a 10. Resolve the gaps with the human one at a time.
+6. **Save** `briefs/<page-id>.md` as `status: draft`, then `approved` when the human signs off. Copy skills and design tools write from approved briefs. At launch, point the audit at staging: no high findings, and every planned message present.
 
 ### issues
 

@@ -401,6 +401,8 @@ def file_units(path: Path, display: str, skip_keys: str | None = None):
 
 def collect(ws: Workspace, tp: dict) -> tuple[str, list[tuple[str, str]], int]:
     """Return (status, units, file_count). A touchpoint may list several sources."""
+    if tp.get("status") == "planned":
+        return "planned", [], 0  # a page that does not exist yet (e.g. in a website rewrite); briefs describe it
     sources = as_list(tp.get("source")) or [{"type": "manual"}]
     statuses, units, nfiles = [], [], 0
     for src in sources:
@@ -1005,12 +1007,16 @@ class Renderer:
             "## Blind spots",
             "",
         ]
-        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] != "ok"]
+        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] not in ("ok", "planned")]
         if blind:
             L += ["Touchpoints the audit cannot see yet. Customers can.", ""]
             L += [f"- {self.tp_link(t['id'], f)} ({self.stage_title(t['stage'])}): {self.r['touchpoints'][t['id']]['status']}" for t in blind]
         else:
             L.append("None. Every touchpoint is collected.")
+        planned = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] == "planned"]
+        if planned:
+            L += ["", "## Planned pages", "", "New touchpoints described by briefs; the audit reads them once they exist and get a source.", ""]
+            L += [f"- {self.tp_link(t['id'], f)} ({self.stage_title(t['stage'])})" + (f", replaces {self.tp_link(t['replaces'], f)}" if t.get("replaces") else "") for t in planned]
         L += ["", "## Guided reviews", ""] + self.review_table(f)
         top = [x for x in findings if x["severity"] == "high"][:15]
         L += ["", "## Top findings", ""] + self.findings_table(top or findings[:15], f)
@@ -1033,7 +1039,7 @@ class Renderer:
         worst = [self.stage_title(s) for w, s in by_stage if w][:2]
         if worst:
             facts.append(f"Weakest stages: {' and '.join(worst)}")
-        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] != "ok"]
+        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] not in ("ok", "planned")]
         if blind:
             facts.append(f"{len(blind)} of {len(self.ws.touchpoints)} touchpoints are blind spots the audit cannot read yet")
         cat = (self.ws.company.get("category") or {}).get("term")
@@ -1053,7 +1059,7 @@ class Renderer:
 
     def readme_recs(self, from_file: str) -> list[str]:
         recs = []
-        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] != "ok"]
+        blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] not in ("ok", "planned")]
         if blind:
             order = {s: i for i, s in enumerate(["acquisition", "onboarding", "awareness", "education", "support", "loyalty", "usage", "product"])}
             blind.sort(key=lambda t: (order.get(t["stage"], 9), t["name"]))
