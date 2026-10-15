@@ -1,7 +1,7 @@
 ---
 name: office-hours
-description: Weekly and ad-hoc office hours for a founder. A direct, Fadell-style coach checks last week's assignment and the one metric that matters, then pressure-tests the plan with forcing questions (demand reality, status quo, name the human, narrowest wedge, observation, future-fit), separates fact from assumption, and ends with one real-world assignment. Use for weekly office hours, a founder check-in, "pressure-test my plan", "challenge my assumptions", or when a big decision comes up between customer-journey interview sessions. Reads and updates the customer-journey workspace.
-argument-hint: "[topic or decision to pressure-test] [workspace path]"
+description: Weekly and ad-hoc office hours for a founder. A direct, Fadell-style coach checks last week's assignment and the one metric that matters, then pressure-tests the plan with forcing questions (demand reality, status quo, name the human, narrowest wedge, observation, future-fit), separates fact from assumption, and ends with one real-world assignment. Use for weekly office hours, a daily "what is the one thing I should do today" check-in (today), a founder check-in, "pressure-test my plan", "challenge my assumptions", or when a big decision comes up between customer-journey interview sessions. Reads and updates the customer-journey workspace.
+argument-hint: "[today | topic or decision to pressure-test] [workspace path]"
 ---
 
 # Office hours
@@ -20,6 +20,7 @@ Reads before every session:
 - `assumptions.md` (open and testing items)
 - the latest `interview/*.md` and `office-hours/*.md` logs: open questions and the last assignment
 - `products/`, `customers/`, `voice.md` as needed for the agenda
+- `founder.md` if present: the founder's strengths, what they are growing into, and what makes the work enjoyable for them. Coach to it: stretch them where they are growing, and design assignments they will want to do
 
 Writes:
 
@@ -45,6 +46,16 @@ During the diagnostic, never say "that's interesting", "there are many ways to l
 ### Push two or three times
 
 The first answer is the rehearsed one. Ask again, narrower: "You said owners love it. Name one. What did they say, in their words? What did they do before?" Stop pushing when the answer is specific enough to write down and check. If the founder wants to move on, ask the two most important remaining questions, then move on; never a third round after a second "skip".
+
+## Today (daily, about 5 minutes)
+
+`/office-hours today` answers one question: **what is the single most impactful thing to do today** toward the one metric (and the nearest dated goal)?
+
+1. Read `one_metric`, `goals` (nearest dates first), open assumptions, the last assignment, and anything new (the latest `listening/` report, audit high findings, CRM or inbox signals the founder mentions).
+2. Pick ONE action, sized for today, that moves the nearest goal or tests the riskiest open assumption. Prefer things that do not scale and that only the founder can do (a personal email to five owners, fixing the top request, asking three happy owners for a review) over planning or tooling.
+3. Say why it beats the next-best option in one sentence, and what done looks like tonight.
+4. If `founder.md` says what makes the work enjoyable, shape the action that way (the right tool, a ritual, a visible score).
+5. Append a short entry to `office-hours/today.md`: date, the one thing, why, and tomorrow's result when they report it. No full session log, no diagnostic, unless the founder asks to go deeper.
 
 ## Session flow
 

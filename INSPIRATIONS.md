@@ -11,6 +11,7 @@ These skills stand on other builders' playbooks. Each entry says what we borrowe
 | Peter van Westendorp; André Gabor and Clive Granger | Price sensitivity meter (1976); buy-response method (1966) | Willingness-to-pay research | `value-pricing` | Cited |
 | Sean Ellis | The product-market fit survey | "How would you feel if you could no longer use it?" with the 40% "very disappointed" benchmark | `customer-journey` interview and assumption tests, `office-hours` | Cited |
 | Alistair Croll and Benjamin Yoskovitz | *Lean Analytics* | The one metric that matters | `customer-journey` interview, `office-hours` | Cited |
+| Paul Graham | ["Do Things That Don't Scale"](https://paulgraham.com/ds.html) (2013) | Early on, recruit and delight customers by hand; the daily one-thing check prefers founder-only, unscalable actions | `office-hours` today mode | Cited |
 | Amazon | Working Backwards | Writing the press release before building | `customer-journey` interview and brief | Cited |
 
 ### Adding an inspiration

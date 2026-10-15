@@ -44,6 +44,8 @@ Open the conversation by walking the person through it. It shows the work and re
 
 Done when: the goals have metrics, the stage is named, and the person agrees with a one-sentence description you read back.
 
+**The founder.** What are you great at, and what do you need to get good at for this goal? What makes hard work enjoyable for you? Record it in `founder.md` so the coach can stretch you in the right places.
+
 ### Phase 1b: Names, marks and the word you want to own → `company.md` (`category`, `trademarks`)
 
 **The category word.**
