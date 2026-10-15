@@ -55,10 +55,10 @@ Lexical checks cannot see paraphrase, contradiction or tone. Read the collected 
 `semantic.json` is a JSON array, rewritten in full every run so resolved items disappear:
 
 ```json
-[{"check": "contradiction", "severity": "high", "title": "Lifespan is 25,000 h on the PDP but 50,000 h on Amazon",
-  "touchpoint": "pdp-atmos,amazon-atmos", "location": "shopify-content/content/products/atmos/description.html:12",
-  "excerpt": "rated for **25,000 hours**", "detail": "Proof in messaging/pillars/engineered-to-last.md says 50,000 h. Align both to the proof.",
-  "message": "engineered-to-last"}]
+[{"check": "contradiction", "severity": "high", "title": "Hold accuracy is ±2 °C on the product page but ±1 °C in the welcome email",
+  "touchpoint": "pdp-pour,welcome-email", "location": "site/products/pour.html:12",
+  "excerpt": "holds temperature to **±2 °C**", "detail": "Proof in messaging/pillars/perfect-temperature.md says ±1 °C. Align both to the proof.",
+  "message": "perfect-temperature"}]
 ```
 
 Rules: every finding cites a real location and a verbatim excerpt you actually read; never invent copy. Do not repeat what the scan already found. Prefer fewer, sharper findings. `severity` is `high` (wrong, risky, or blocks a purchase), `medium` (inconsistent or off-message), `low` (polish).

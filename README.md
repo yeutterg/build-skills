@@ -26,7 +26,7 @@ See [the framework](skills/customer-journey/docs/framework.md), [the schema](ski
 As a Claude Code plugin:
 
 ```
-/plugin marketplace add <owner>/build-skills
+/plugin marketplace add yeutterg/build-skills
 /plugin install build-skills@build-skills
 ```
 
