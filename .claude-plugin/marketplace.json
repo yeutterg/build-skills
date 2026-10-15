@@ -1,0 +1,11 @@
+{
+  "name": "build-skills",
+  "owner": { "name": "Greg Yeutter" },
+  "plugins": [
+    {
+      "name": "build-skills",
+      "source": "./",
+      "description": "Customer journey mapping, messaging architecture and touchpoint audits, inspired by Tony Fadell's Build."
+    }
+  ]
+}

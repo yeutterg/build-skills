@@ -1,0 +1,261 @@
+{
+ "findings": [
+  {
+   "channel": "product-page",
+   "check": "claim",
+   "excerpt": "Start your morning with a kettle that **detoxifies** your water.",
+   "fp": "8714a4ddbe",
+   "group": "5ab8c068e3",
+   "location": "site/products/pour.html:4",
+   "rule": "health-claim",
+   "severity": "high",
+   "stage": "education",
+   "suggest": "Describe the experience (taste, temperature), not a health outcome.",
+   "touchpoint": "pdp-pour",
+   "workstream": "Shopify/Web"
+  },
+  {
+   "channel": "app",
+   "check": "missing",
+   "excerpt": "",
+   "fp": "930e60d241",
+   "group": "045cf8dbf4",
+   "location": "channel:app",
+   "message": "perfect-temperature",
+   "severity": "high",
+   "stage": "onboarding",
+   "suggest": "Exact to the degree",
+   "touchpoint": "app-setup",
+   "workstream": "App"
+  },
+  {
+   "channel": "app",
+   "check": "retired",
+   "excerpt": "Set up your **SmartKettle**",
+   "fp": "1c2e1c433d",
+   "group": "4a1bbedf81",
+   "location": "app/strings.json#setup.title",
+   "message": "name-pour",
+   "phrase": "SmartKettle",
+   "severity": "high",
+   "stage": "onboarding",
+   "suggest": "Acme Pour",
+   "touchpoint": "app-setup",
+   "workstream": "App"
+  },
+  {
+   "channel": "website",
+   "check": "retired",
+   "excerpt": "Shop **Acme Kettle Pro**",
+   "fp": "c29bcfce66",
+   "group": "73c02fa0aa",
+   "location": "site/index.html:5",
+   "message": "name-pour",
+   "phrase": "Acme Kettle Pro",
+   "severity": "high",
+   "stage": "awareness",
+   "suggest": "Acme Pour",
+   "touchpoint": "home",
+   "workstream": "Shopify/Web"
+  },
+  {
+   "channel": "product-page",
+   "check": "missing",
+   "excerpt": "",
+   "fp": "0d42c8527e",
+   "group": "95faa32d0f",
+   "location": "channel:product-page",
+   "message": "quiet-boil",
+   "severity": "medium",
+   "stage": "education",
+   "suggest": "Boils at a whisper",
+   "touchpoint": "pdp-pour",
+   "workstream": "Shopify/Web"
+  },
+  {
+   "channel": "product-page",
+   "check": "retired",
+   "excerpt": "**Precision heating technology** keeps water where you want it.",
+   "fp": "0e9d4ec740",
+   "group": "468b8368ff",
+   "location": "site/products/pour.html:3",
+   "message": "perfect-temperature",
+   "phrase": "Precision heating technology",
+   "severity": "medium",
+   "stage": "education",
+   "suggest": "Exact to the degree",
+   "touchpoint": "pdp-pour",
+   "workstream": "Shopify/Web"
+  },
+  {
+   "channel": "website",
+   "check": "claim",
+   "excerpt": "Meet the **world's first** kettle that boils at a whisper.",
+   "fp": "2674088f66",
+   "group": "ee183df518",
+   "location": "site/index.html:4",
+   "rule": "superlative",
+   "severity": "low",
+   "stage": "awareness",
+   "suggest": "",
+   "touchpoint": "home",
+   "workstream": "Shopify/Web"
+  }
+ ],
+ "matrix": {
+  "mission": {
+   "app": "none",
+   "email": "extra",
+   "packaging": "none",
+   "product-page": "none",
+   "social": "none",
+   "website": "ok"
+  },
+  "name-pour": {
+   "app": "stale",
+   "email": "ok",
+   "packaging": "blind",
+   "product-page": "ok",
+   "social": "blind",
+   "website": "stale"
+  },
+  "perfect-temperature": {
+   "app": "missing",
+   "email": "ok",
+   "packaging": "blind",
+   "product-page": "stale",
+   "social": "blind",
+   "website": "ok"
+  },
+  "quiet-boil": {
+   "app": "none",
+   "email": "none",
+   "packaging": "blind",
+   "product-page": "missing",
+   "social": "none",
+   "website": "ok"
+  }
+ },
+ "touchpoints": {
+  "app-setup": {
+   "files": 1,
+   "hits": {
+    "name-pour": {
+     "approved": 0,
+     "retired": 1,
+     "signals": 0
+    }
+   },
+   "present": [],
+   "stale": [
+    "name-pour"
+   ],
+   "status": "ok",
+   "units": 3
+  },
+  "box": {
+   "files": 0,
+   "hits": {},
+   "present": [],
+   "stale": [],
+   "status": "not collected",
+   "units": 0
+  },
+  "home": {
+   "files": 1,
+   "hits": {
+    "mission": {
+     "approved": 1,
+     "retired": 0,
+     "signals": 0
+    },
+    "name-pour": {
+     "approved": 1,
+     "retired": 1,
+     "signals": 0
+    },
+    "perfect-temperature": {
+     "approved": 1,
+     "retired": 0,
+     "signals": 0
+    },
+    "quiet-boil": {
+     "approved": 1,
+     "retired": 0,
+     "signals": 1
+    }
+   },
+   "present": [
+    "mission",
+    "name-pour",
+    "perfect-temperature",
+    "quiet-boil"
+   ],
+   "stale": [
+    "name-pour"
+   ],
+   "status": "ok",
+   "units": 4
+  },
+  "instagram": {
+   "files": 0,
+   "hits": {},
+   "present": [],
+   "stale": [],
+   "status": "not collected",
+   "units": 0
+  },
+  "pdp-pour": {
+   "files": 1,
+   "hits": {
+    "name-pour": {
+     "approved": 1,
+     "retired": 0,
+     "signals": 0
+    },
+    "perfect-temperature": {
+     "approved": 1,
+     "retired": 1,
+     "signals": 3
+    }
+   },
+   "present": [
+    "name-pour",
+    "perfect-temperature"
+   ],
+   "stale": [
+    "perfect-temperature"
+   ],
+   "status": "ok",
+   "units": 4
+  },
+  "welcome-email": {
+   "files": 1,
+   "hits": {
+    "mission": {
+     "approved": 1,
+     "retired": 0,
+     "signals": 0
+    },
+    "name-pour": {
+     "approved": 2,
+     "retired": 0,
+     "signals": 0
+    },
+    "perfect-temperature": {
+     "approved": 1,
+     "retired": 0,
+     "signals": 1
+    }
+   },
+   "present": [
+    "mission",
+    "name-pour",
+    "perfect-temperature"
+   ],
+   "stale": [],
+   "status": "ok",
+   "units": 3
+  }
+ }
+}

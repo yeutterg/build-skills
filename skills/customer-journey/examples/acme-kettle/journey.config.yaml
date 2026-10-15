@@ -1,0 +1,18 @@
+# customer-journey workspace config (example: a fictional smart kettle company)
+brand: Acme Kettle
+output: audit
+
+# Named source roots. Relative paths resolve from this file; ~ and $ENV are expanded.
+roots:
+  site: sources/site
+  app: sources/app
+  email: sources/email
+
+# GitHub sync (optional). `journey.py issues` is a dry run unless --apply.
+# github:
+#   repo: your-org/your-repo
+#   label: customer-journey
+#   project: {owner: your-org, number: 1, status: Inbox}
+
+# Accepted findings: put a finding `fp` or issue group key here with a reason.
+ignore: []

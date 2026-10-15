@@ -1,0 +1,8 @@
+brand: Your Company
+output: audit
+roots:
+  site: ../path/to/website/repo
+# github:
+#   repo: your-org/your-repo
+#   project: {owner: your-org, number: 1, status: Inbox}
+ignore: []
