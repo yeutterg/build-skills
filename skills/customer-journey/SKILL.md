@@ -16,6 +16,7 @@ The framework is generic. Everything company-specific lives in a **workspace** (
 <workspace>/
   journey.config.yaml     brand, source roots, GitHub repo/project, ignores
   company.md              goals, stage, alternatives, constraints (interview)
+  voice.md                the brand voice guide, master copy (interview, reviews and copy tools keep it current)
   products/*.md           current and upcoming products (crawl drafts, confirmed in the interview)
   customers/*.md          segments, ICP and personas with evidence (interview)
   assumptions.md          claims not yet checked, each with a test and owner (interview)
@@ -57,7 +58,7 @@ Lexical checks cannot see paraphrase, contradiction or tone. Read the collected 
 | `pain-first` | Awareness and Education copy that pitches the painkiller without first reminding the customer of the pain |
 | `promise-break` | A promise made at one stage that the next stage does not keep (e.g. "set up in a minute" on the site, a 12-step onboarding) |
 | `paraphrase` | A message expressed in off-brand words that the lexical scan missed; suggest the approved wording |
-| `voice` | Copy that breaks the brand voice described in the workspace (look for a voice or style guide linked from `journey.config.yaml` or `messaging/`) |
+| `voice` | Copy that breaks the brand voice in the workspace's `voice.md` (or the guide named by `voice_guide` in `company.md`) |
 
 `semantic.json` is a JSON array, rewritten in full every run so resolved items disappear:
 
@@ -80,7 +81,7 @@ In short:
 
 1. **Discover before asking.** Ask only for the website URL, where existing materials live, and who else to consult. Then `journey.py crawl <ws> --url <site>` (page inventory and products, with draft `products/*.md`) and read every existing material. Open the conversation with a *What I found* summary.
 2. **Interview in phases**, one topic at a time, proposing answers from evidence for the person to confirm or correct: company and goals, products (confirm the crawled ones, then upcoming ones the crawl cannot see), customers and ICP, market and alternatives, touchpoints and stack, messaging.
-3. **Write as you go** to `company.md`, `products/`, `customers/`, `assumptions.md`, `journey.md`, `messaging/`, `activation.md`, `claims.md`, and the session log `interview/<date>.md` (from `templates/`). Mark how each claim is known: data, anecdote, belief or goal.
+3. **Write as you go** to `company.md`, `voice.md` (when positioning, buyer or tone decisions change it; add a changelog line), `products/`, `customers/`, `assumptions.md`, `journey.md`, `messaging/`, `activation.md`, `claims.md`, and the session log `interview/<date>.md` (from `templates/`). Mark how each claim is known: data, anecdote, belief or goal.
 4. **Close every session** by reading back decisions, listing open questions with owners, running `validate` and `run`, and agreeing the next focus. Resume later sessions from the open questions in the latest log.
 
 Stack details (which CMS, theme, app, email tool) belong in the company's workspace, never in this skill. `docs/stacks.md` maps common platforms to sources.

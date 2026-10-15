@@ -68,6 +68,10 @@ The first markdown table in the body. First column: a message link (`[Title](mes
 
 Front matter `rules`: `{id, pattern, severity, reason, suggest, except_touchpoints, products}`. With `products`, the rule only applies to touchpoints tagged with one of them (e.g. a spec that is true for one product and must never appear on another's pages). `pattern` is a case-insensitive Python regex.
 
+### voice.md
+
+Optional but recommended: the brand voice guide as the single master copy (voice, positioning, buyer, writing rules, lexicon, avoid list, trademark usage, and a changelog). Interviews and guided reviews update it; copy-writing tools should read it from the workspace rather than keep their own copy. The judgment pass's `voice` check and guided reviews use it.
+
 ### reviews/*.md
 
 One note per guided review session (see `templates/review.md`).
