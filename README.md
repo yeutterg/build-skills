@@ -43,3 +43,7 @@ python3 -m unittest discover -s skills/customer-journey/tests
 ```
 
 The example's `audit/` is a golden file; regenerate it with `journey.py run examples/acme-kettle --date 2026-10-15` when output changes on purpose.
+
+### License
+
+[MIT](LICENSE)

@@ -2,5 +2,9 @@
   "name": "build-skills",
   "version": "0.1.0",
   "description": "Claude Code skills for product makers, inspired by Tony Fadell's Build: customer journey mapping, messaging architecture and touchpoint audits.",
-  "author": { "name": "Greg Yeutter" }
+  "author": {
+    "name": "Greg Yeutter"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/yeutterg/build-skills"
 }
