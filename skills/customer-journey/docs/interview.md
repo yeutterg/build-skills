@@ -99,7 +99,19 @@ Ask for evidence before opinion: order exports, customer lists, reviews, support
 
 Done when: each segment has a share estimate with its source, ranked pains with at least one verbatim quote each, top objections, and the channels where they find you.
 
-### Phase 4: Market and positioning → `company.md` (`alternatives`)
+### Phase 4: Market and positioning → `company.md` (`alternatives`, `role_models`)
+
+**Competitors and why you're different.**
+
+- Who are your competitors: direct rivals, adjacent products customers compare you with, and the workaround or "do nothing" option? Name them.
+- For each: why do people choose them? Where are they genuinely better than you? What is your difference, and would their customers agree it matters?
+
+**Who you look up to.**
+
+- Which companies in adjacent product spaces do you admire, and what exactly would you borrow: the site, the story, the onboarding, the pricing, the community, the way they own a category?
+- What would you deliberately *not* copy from them?
+
+Role models shape the rewrite more than competitors do; record them with what to borrow and what to avoid.
 
 - What does a customer use instead: competitors, workarounds, doing nothing? Why do people choose each?
 - What is the one thing you do that the alternatives do not? Would customers agree? What proof do you have?

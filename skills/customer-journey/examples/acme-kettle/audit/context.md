@@ -27,6 +27,12 @@ Summarized from `company.md`, `products/` and `customers/` (built in the intervi
 |---|---|---|---|---|---|---|
 | Acme Pour | pending | ™ | first-mention | US | 11 |  |
 
+**Who we look up to**
+
+| Company | Space | Borrow | Avoid |
+|---|---|---|---|
+| Fellow | Coffee gear | Product pages that teach brewing, not just sell hardware | Accessory sprawl |
+
 **What customers use instead**
 
 | Alternative | Why people choose it | Our edge |

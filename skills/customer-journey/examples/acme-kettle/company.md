@@ -25,6 +25,11 @@ trademarks:
     check_casing: true
     jurisdictions: [US]
     classes: [11]
+role_models:
+  - name: Fellow
+    space: Coffee gear
+    borrow: Product pages that teach brewing, not just sell hardware
+    avoid: Accessory sprawl
 alternatives:
   - name: Stovetop kettle and thermometer
     why: Cheap and familiar

@@ -22,7 +22,12 @@ trademarks:
     jurisdictions: []
     classes: []
     registration: ""
-alternatives:             # what customers use instead
+role_models:              # companies in adjacent spaces you look up to
+  - name: ""
+    space: ""
+    borrow: ""            # what to borrow
+    avoid: ""             # what not to copy
+alternatives:             # competitors, adjacent products and workarounds customers use instead
   - name: ""
     why: ""               # why people choose it
     our_edge: ""

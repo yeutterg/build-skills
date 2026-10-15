@@ -899,6 +899,10 @@ class Renderer:
                 L += ["", "**Trademarks**", "", "| Mark | Status | Symbol | Usage rule | Jurisdictions | Classes | Registration |", "|---|---|---|---|---|---|---|"]
                 for t in marks:
                     L.append(f"| {t.get('mark', '')} | {t.get('status', 'unknown')} | {t.get('symbol', '')} | {t.get('usage', '')} | {', '.join(map(str, as_list(t.get('jurisdictions'))))} | {', '.join(map(str, as_list(t.get('classes'))))} | {t.get('registration', '')} |")
+            models = [m for m in as_list(c.get("role_models")) if isinstance(m, dict) and m.get("name")]
+            if models:
+                L += ["", "**Who we look up to**", "", "| Company | Space | Borrow | Avoid |", "|---|---|---|---|"]
+                L += [f"| {m.get('name', '')} | {m.get('space', '')} | {m.get('borrow', '')} | {m.get('avoid', '')} |" for m in models]
             alts = as_list(c.get("alternatives"))
             if alts:
                 L += ["", "**What customers use instead**", "", "| Alternative | Why people choose it | Our edge |", "|---|---|---|"]
