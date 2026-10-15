@@ -4,7 +4,7 @@ The audit reads touchpoints through four source types (see `schema.md`): files i
 
 | Platform | Discovery (crawl) | Best audit source |
 |---|---|---|
-| Shopify | `/products.json` and sitemap, automatic | Theme repo: `templates/*.json`, `sections/*.liquid`, `locales/en.default.json`. Pages and product descriptions via an Admin API export into a content repo |
+| Shopify | `/products.json` and sitemap, automatic | Theme repo: `templates/*.json` (add `skip_keys: '^name$'` to skip editor-only section names), `sections/*.liquid`, `locales/en.default.json`. Pages and product descriptions via an Admin API export into a content repo |
 | WordPress | Sitemap; products via WooCommerce JSON-LD | `/wp-json/wp/v2/pages` and `/posts` exported to JSON, or URL sources |
 | Webflow, Squarespace, Wix | Sitemap and JSON-LD | URL sources, or a CMS collection CSV export |
 | Next.js, Astro, Hugo, static sites | Sitemap | Repo globs over content (`content/**/*.md*`, `src/**/*.tsx`) |

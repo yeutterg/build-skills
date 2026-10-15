@@ -297,26 +297,33 @@ CONFIG_KEYS = re.compile(
 )
 
 
+CUSTOMER_KEYS = re.compile(r"reviews?|ratings?", re.IGNORECASE)
+
+
 def is_prose(s: str) -> bool:
     """Heuristic: does this string read like customer-facing copy rather than code or config?"""
     s = s.strip()
     if not re.search(r"[A-Za-z]{3}", s) or "://" in s and " " not in s:
         return False
+    if not re.search(r"\s", s) and re.search(r"[./@_$]", s):
+        return False  # identifiers, import paths, file names
     words = re.findall(r"[A-Za-z][A-Za-z'’]+", s)
     if not re.search(r"[A-Z]", s) and re.fullmatch(r"[\w\-:/.\[\]#%@$ ]+", s) and re.search(r"[-_/]", s):
         return False  # css classes, paths, slugs
     return len(words) >= 2 or bool(re.match(r"[A-Z]", s))
 
 
-def json_strings(node, path=""):
+def json_strings(node, path="", skip: re.Pattern | None = None):
     if isinstance(node, dict):
         for k in sorted(node):
             if CONFIG_KEYS.search(str(k)) and not isinstance(node[k], (dict, list)):
                 continue
-            yield from json_strings(node[k], f"{path}.{k}" if path else str(k))
+            if CUSTOMER_KEYS.search(str(k)) or (skip and skip.search(str(k))):
+                continue  # customer-written content, or keys the source marks as non-copy
+            yield from json_strings(node[k], f"{path}.{k}" if path else str(k), skip)
     elif isinstance(node, list):
         for i, v in enumerate(node):
-            yield from json_strings(v, f"{path}[{i}]")
+            yield from json_strings(v, f"{path}[{i}]", skip)
     elif isinstance(node, str):
         yield path, node
 
@@ -340,12 +347,12 @@ def code_units(raw: str):
         if bare and not re.search(r"[;={}()<>\[\]`'\"]|^\s*(import|export|return|const|let|if|else)\b", bare):
             found.append(bare)  # JSX text on its own line
         for text in found:
-            text = strip_markup(text)
+            text = strip_markup(re.sub(r"\$\{[^}]*\}", " ", text))
             if is_prose(text):
                 yield i, text
 
 
-def file_units(path: Path, display: str):
+def file_units(path: Path, display: str, skip_keys: str | None = None):
     """Yield (location, text) for the customer-facing copy in one file."""
     try:
         raw = path.read_text(errors="replace")
@@ -358,7 +365,7 @@ def file_units(path: Path, display: str):
         except json.JSONDecodeError:
             data = None
         if data is not None:
-            for key, val in json_strings(data):
+            for key, val in json_strings(data, skip=re.compile(skip_keys) if skip_keys else None):
                 text = strip_markup(val)
                 if is_prose(text):
                     yield f"{display}#{key}", text
@@ -369,6 +376,7 @@ def file_units(path: Path, display: str):
         return
     if suffix in (".html", ".htm", ".liquid"):
         raw = re.sub(r"\{%-?\s*(comment|schema|javascript|stylesheet|raw)\s*-?%\}.*?\{%-?\s*end\1\s*-?%\}", _blank, raw, flags=re.S)
+        raw = re.sub(r"\{%-?\s*liquid\b.*?-?%\}", _blank, raw, flags=re.S)
         raw = re.sub(r"<(script|style)\b.*?</\1>", _blank, raw, flags=re.S | re.I)
         raw = re.sub(r"<!--.*?-->", _blank, raw, flags=re.S)
         for i, line in enumerate(raw.splitlines(), 1):
@@ -433,7 +441,7 @@ def collect_one(ws: Workspace, tp: dict, src: dict) -> tuple[str, list[tuple[str
         units = []
         label = src.get("root") or "."
         for f in sorted(files):
-            units += list(file_units(f, f"{label}/{f.relative_to(root).as_posix()}"))
+            units += list(file_units(f, f"{label}/{f.relative_to(root).as_posix()}", src.get("skip_keys")))
         if not files:
             return "empty: glob matched no files", [], 0
         if not units:
@@ -614,6 +622,9 @@ def trademark_findings(ws: "Workspace", tp: dict, units: list[tuple[str, str]]) 
                 seen_docs.add(doc)
             if tm.get("check_casing"):
                 for mt in loose.finditer(text):
+                    before, after = text[mt.start() - 1 : mt.start()], text[mt.end() : mt.end() + 1]
+                    if before and before in "./_-@#'\"" or after and after in "./_-":
+                        continue  # part of a path, slug or identifier
                     if mt.group(0) != mark:
                         out.append({**base, "severity": "low", "rule": f"{mark}:casing", "title": f"{mark} written as \"{mt.group(0)}\"",
                                     "detail": f"Write the mark exactly as \"{mark}\".", "location": loc, "excerpt": excerpt(text, *mt.span())})

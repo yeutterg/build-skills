@@ -56,6 +56,8 @@ Front matter keys: `stages` (ordered list, default Fadell's eight), `channels` (
 | `source` | One source or a list of them: `{root, glob, exclude}` files, `{type: url, url}`, `{type: text, text}`, or `{type: manual}` |
 | `notes` | Shown on the touchpoint page |
 
+A files source may add `skip_keys`, a regex of JSON keys that hold labels or settings rather than customer copy (for example a theme's editor-only section names).
+
 Files are read by type: `.html`/`.liquid` with tags stripped, `.json` as every string value (location `file#key.path`), anything else line by line.
 
 ### activation.md
