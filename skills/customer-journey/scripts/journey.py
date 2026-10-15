@@ -344,7 +344,8 @@ def code_units(raw: str):
         found = [m.group(2) for m in STRING_LIT.finditer(line)]
         found += re.findall(r">([^<>{}]+)<", line)
         bare = line.strip()
-        if bare and not re.search(r"[;={}()<>\[\]`'\"]|^\s*(import|export|return|const|let|if|else)\b", bare):
+        if bare and not re.search(r"[;={}()<>\[\]`'\"]|^\s*(import|export|return|const|let|if|else)\b", bare) \
+                and not re.match(r"[\w$.]+\s*:", bare) and not bare.endswith(","):
             found.append(bare)  # JSX text on its own line
         for text in found:
             text = strip_markup(re.sub(r"\$\{[^}]*\}", " ", text))
