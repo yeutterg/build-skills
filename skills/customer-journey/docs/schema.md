@@ -12,6 +12,7 @@ All inputs are markdown with YAML front matter (edit them in any editor, or Obsi
 | `github.repo` | `owner/name` where issues are opened |
 | `github.label` | Issue label, default `customer-journey` |
 | `github.project` | `{owner, number, status}`: adds issues to a Projects (v2) board and sets `Status` (default `Inbox`), `Workstream` and `Priority` (P1-P3) when those single-select fields and options exist |
+| `listen` | `{queries: [...], watch: [...], reviews: [urls or files]}` for the listen mode |
 | `ignore` | List of `{fp, reason}`. `fp` is a finding fingerprint or issue group key from `audit/data/scan.json` |
 
 ### company.md, products/*.md, customers/*.md
