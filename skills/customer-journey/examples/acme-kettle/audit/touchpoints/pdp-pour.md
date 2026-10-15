@@ -42,5 +42,6 @@
 | 🔴 | claim | rule `health-claim` | `site/products/pour.html:4` | Start your morning with a kettle that **detoxifies** your water. | Describe the experience (taste, temperature), not a health outcome. |  |
 | 🟠 | missing | [Quiet boil](../../messaging/pillars/quiet-boil.md) | `channel:product-page` |  | planned for Product page but not found |  |
 | 🟠 | retired | [Perfect temperature](../../messaging/pillars/perfect-temperature.md) | `site/products/pour.html:3` | **Precision heating technology** keeps water where you want it. | retired wording "Precision heating technology"; use "Exact to the degree" |  |
+| 🟡 | trademark | Acme Pour first mention without ™ | `site/products/pour.html:1` | **Acme Pour** | Brand rule: Acme Pour™ on first mention per page. |  |
 | 🔴 | review | [Perfect temperature](../../messaging/pillars/perfect-temperature.md) | `site/products/pour.html:3` | Exact to the degree: set 80 °C for green tea | Open with the scorched-tea pain (one sentence) before the feature. Sam to draft; Claude to check against the Perfect temperature grid. |  |
 | 🟡 | review | No path from the product page to setup help | `site/products/pour.html` |  | Add a "Setting up Pour" link so Onboarding starts before the box arrives. |  |

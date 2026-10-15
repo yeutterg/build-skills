@@ -9,8 +9,9 @@
 
 **Key findings**
 
-- 1 of 2 touchpoints collected; 2 findings
+- 1 of 2 touchpoints collected; 3 findings
 - 🔴 Retired wording "Acme Kettle Pro" (Product name): 1 location in [Homepage](../touchpoints/home.md)
+- 🟡 Acme Pour first mention without ™: 1 location in [Homepage](../touchpoints/home.md)
 - 🟡 `superlative` claims: 1 location in [Homepage](../touchpoints/home.md)
 
 **Recommended improvements**
@@ -23,7 +24,7 @@
 
 | Touchpoint | Channel | Workstream | Status | Messages present | Findings |
 |---|---|---|---|---|---|
-| [Homepage](../touchpoints/home.md) | Website | Shopify/Web | ok | 4 | 2 |
+| [Homepage](../touchpoints/home.md) | Website | Shopify/Web | ok | 4 | 3 |
 | [Instagram](../touchpoints/instagram.md) | Social | Social | not collected | 0 | 0 |
 
 ### Findings
@@ -32,3 +33,4 @@
 |---|---|---|---|---|---|---|---|
 | 🔴 | retired | [Product name](../../messaging/name-pour.md) | [Homepage](../touchpoints/home.md) | `site/index.html:5` | Shop **Acme Kettle Pro** | retired wording "Acme Kettle Pro"; use "Acme Pour" |  |
 | 🟡 | claim | rule `superlative` | [Homepage](../touchpoints/home.md) | `site/index.html:4` | Meet the **world's first** kettle that boils at a whisper. | guardrail |  |
+| 🟡 | trademark | Acme Pour first mention without ™ | [Homepage](../touchpoints/home.md) | `site/index.html:2` | **Acme Pour** | Brand rule: Acme Pour™ on first mention per page. |  |

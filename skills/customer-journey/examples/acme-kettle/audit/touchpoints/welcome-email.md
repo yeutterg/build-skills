@@ -15,10 +15,13 @@
 **Key findings**
 
 - Carries 2 of 2 messages planned for Email
+- 🔴 Acme Pour® used, but the mark is pending
+- 🟡 Acme Pour first mention without ™
 
 **Recommended improvements**
 
-1. Schedule a guided review with `/customer-journey review`
+1. Acme Pour® used, but the mark is pending ([Welcome email](welcome-email.md)): Only registered marks may carry ®. Use ™ until registration.
+2. Schedule a guided review with `/customer-journey review`
 
 ### Messages detected
 
@@ -30,4 +33,7 @@
 
 ### Findings
 
-None.
+| | Check | Subject | Location | Excerpt | Note | Issue |
+|---|---|---|---|---|---|---|
+| 🔴 | trademark | Acme Pour® used, but the mark is pending | `email/welcome.md:3` | Thanks for bringing **Acme Pour®** home. Welcome to precision brewing. Every cup, exactly right: pick 85… | Only registered marks may carry ®. Use ™ until registration. |  |
+| 🟡 | trademark | Acme Pour first mention without ™ | `email/welcome.md:1` | Subject: Welcome to **Acme Pour** | Brand rule: Acme Pour™ on first mention per page. |  |

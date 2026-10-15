@@ -471,10 +471,12 @@ def scan(ws: Workspace) -> dict:
         for mid, m in ws.messages.items()
     }
     ignored = {str(i.get("fp")) for i in ws.config.get("ignore", []) or []}
-    touchpoints, findings = {}, []
+    touchpoints, findings, category = {}, [], {}
 
     for tp in ws.touchpoints:
         status, units, nfiles = collect(ws, tp)
+        findings += trademark_findings(ws, tp, units)
+        category[tp["id"]] = category_hits(ws, units) if status == "ok" else None
         hits = {mid: {"approved": 0, "signals": 0, "retired": 0} for mid in ws.messages}
         for loc, text in units:
             for mid, c in compiled.items():
@@ -579,7 +581,52 @@ def scan(ws: Workspace) -> dict:
         f["group"] = group_key(f)
     findings = [f for f in findings if f["fp"] not in ignored and f["group"] not in ignored]
     findings.sort(key=lambda f: (SEVERITIES.index(f["severity"]) if f["severity"] in SEVERITIES else 9, f["check"], f.get("message", f.get("rule", "")), f["touchpoint"], f["location"]))
-    return {"touchpoints": touchpoints, "matrix": matrix, "findings": findings}
+    return {"touchpoints": touchpoints, "matrix": matrix, "findings": findings, "category": category}
+
+
+SYMBOLS = "™®℠"
+
+
+def trademark_findings(ws: "Workspace", tp: dict, units: list[tuple[str, str]]) -> list[dict]:
+    """Check how each mark in company.md `trademarks` is used in one touchpoint's copy."""
+    out = []
+    for tm in as_list(ws.company.get("trademarks")):
+        if not isinstance(tm, dict) or not tm.get("mark"):
+            continue
+        mark, status = str(tm["mark"]), str(tm.get("status", "unknown"))
+        exact = re.compile(r"(?<![\w])" + re.escape(mark) + r"(?![\w])(\s?[" + SYMBOLS + r"])?")
+        loose = re.compile(r"(?<![\w])" + r"[\s\-]?".join(re.escape(c) for c in mark.replace(" ", "")) + r"(?![\w])", re.IGNORECASE)
+        seen_docs = set()
+        base = {"check": "trademark", "touchpoint": tp["id"]}
+        for loc, text in units:
+            doc = re.split(r"[:#]", loc, 1)[0]
+            for mt in exact.finditer(text):
+                sym = (mt.group(1) or "").strip()
+                if sym == "®" and status != "registered":
+                    out.append({**base, "severity": "high", "rule": f"{mark}:registered-symbol", "title": f"{mark}® used, but the mark is {status}",
+                                "detail": "Only registered marks may carry ®. Use ™ until registration.", "location": loc, "excerpt": excerpt(text, *mt.span())})
+                if tm.get("usage") == "first-mention" and doc not in seen_docs and not sym and tm.get("symbol"):
+                    out.append({**base, "severity": "low", "rule": f"{mark}:first-mention", "title": f"{mark} first mention without {tm['symbol']}",
+                                "detail": f"Brand rule: {mark}{tm['symbol']} on first mention per page.", "location": loc, "excerpt": excerpt(text, *mt.span())})
+                if tm.get("usage") == "every-mention" and not sym and tm.get("symbol"):
+                    out.append({**base, "severity": "low", "rule": f"{mark}:every-mention", "title": f"{mark} without {tm['symbol']}",
+                                "detail": f"Brand rule: {mark}{tm['symbol']} on every mention.", "location": loc, "excerpt": excerpt(text, *mt.span())})
+                seen_docs.add(doc)
+            if tm.get("check_casing"):
+                for mt in loose.finditer(text):
+                    if mt.group(0) != mark:
+                        out.append({**base, "severity": "low", "rule": f"{mark}:casing", "title": f"{mark} written as \"{mt.group(0)}\"",
+                                    "detail": f"Write the mark exactly as \"{mark}\".", "location": loc, "excerpt": excerpt(text, *mt.span())})
+    return out
+
+
+def category_hits(ws: "Workspace", units: list[tuple[str, str]]) -> int:
+    cat = ws.company.get("category") or {}
+    terms = [t for t in [cat.get("term"), *as_list(cat.get("variants"))] if t]
+    if not terms:
+        return 0
+    rx = [phrase_re(t) for t in terms]
+    return sum(len(r.findall(text)) for _, text in units for r in rx)
 
 
 def group_key(f: dict) -> str:
@@ -590,6 +637,8 @@ def group_key(f: dict) -> str:
         return fingerprint("claim", f["rule"])
     if f["check"] == "missing":
         return fingerprint("missing", f["message"])
+    if f["check"] == "trademark":
+        return fingerprint("trademark", f["rule"])
     return fingerprint(f["check"], f.get("message", ""), f.get("touchpoint", ""), f.get("title", ""))
 
 
@@ -826,6 +875,19 @@ class Renderer:
                 for g in goals:
                     g = g if isinstance(g, dict) else {"goal": g}
                     L.append(f"| {g.get('goal', '')} | {g.get('metric', '')} | {g.get('target', '')} | {g.get('by', '')} |")
+            cat = c.get("category") or {}
+            if cat.get("term"):
+                hits = self.r.get("category", {})
+                using = sorted((t for t, n in hits.items() if n), key=lambda t: -hits[t])
+                L += ["", f"**Category we want to own: {cat['term']}**" + (f" ({cat['status']})" if cat.get("status") else ""), ""]
+                if cat.get("definition"):
+                    L.append(f"- Definition: {cat['definition']}")
+                L.append(f"- Used in {len(using)} of {sum(1 for n in hits.values() if n is not None)} readable touchpoints" + (": " + ", ".join(f"{self.tp_link(t, f)} ({hits[t]})" for t in using[:8]) if using else ""))
+            marks = [t for t in as_list(c.get("trademarks")) if isinstance(t, dict)]
+            if marks:
+                L += ["", "**Trademarks**", "", "| Mark | Status | Symbol | Usage rule | Jurisdictions | Classes | Registration |", "|---|---|---|---|---|---|---|"]
+                for t in marks:
+                    L.append(f"| {t.get('mark', '')} | {t.get('status', 'unknown')} | {t.get('symbol', '')} | {t.get('usage', '')} | {', '.join(map(str, as_list(t.get('jurisdictions'))))} | {', '.join(map(str, as_list(t.get('classes'))))} | {t.get('registration', '')} |")
             alts = as_list(c.get("alternatives"))
             if alts:
                 L += ["", "**What customers use instead**", "", "| Alternative | Why people choose it | Our edge |", "|---|---|---|"]
@@ -946,6 +1008,12 @@ class Renderer:
         blind = [t for t in self.ws.touchpoints if self.r["touchpoints"][t["id"]]["status"] != "ok"]
         if blind:
             facts.append(f"{len(blind)} of {len(self.ws.touchpoints)} touchpoints are blind spots the audit cannot read yet")
+        cat = (self.ws.company.get("category") or {}).get("term")
+        if cat:
+            hits = self.r.get("category", {})
+            seen = [t for t, n in hits.items() if n is not None]
+            using = [t for t in seen if hits[t]]
+            facts.append(f"Category term \"{cat}\" appears in {len(using)} of {len(seen)} readable touchpoints")
         open_ = [a for a in self.ws.assumptions if a.get("status", "open") == "open"]
         if open_:
             n = len(open_)

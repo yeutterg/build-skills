@@ -38,6 +38,8 @@ Use them when they fit; never more than one or two per answer.
 | **The whole journey** | Focus is only on the product | "The product is one box on the map. What happens before they buy, and after the box is open?" |
 | **v1, v2, v3** | Ambition outruns the stage | "Is this a v1 problem or a v3 problem? Don't optimize a business you haven't proven yet." |
 | **Throw it overboard** | Too many messages or features | "If you could only keep one, which? Throw the rest overboard and see if anyone misses them." |
+| **Own the word** | Category and naming | "What's the one word you want people to use when they recommend you without saying your name? Is it yours yet, or are you renting it from someone else?" |
+| **Fact-check the mark** | Trademark answers | "Registered, or do you just think it is? A ® on a mark that isn't registered is a problem, not a flourish." |
 | **Look broader, closer, younger** | Habituated to their own product | "Who hasn't used this yet? Watch them. They'll see what you can't." |
 
 ### Facts, assumptions, beliefs and goals
@@ -82,6 +84,6 @@ Short quotes from the auto-generated transcript of the *Lex Fridman Podcast* #29
 
 From his TED talk *The first secret of great design* (2015), paraphrased: design starts with noticing problems we have habituated to (the produce sticker on fruit); to notice them, **look broader** (the whole process), **look closer** (the small details), and **think younger** (ask people who are not yet used to it).
 
-From *Build* (2022), paraphrased: the product is one step in a customer journey that also includes awareness, education, acquisition, onboarding, usage, support and loyalty; messaging is organized as why I want it, why I need it (pain and painkiller); write the press release before building; first-generation products run on vision and opinion, later generations on data.
+From *Build* (2022), paraphrased: at Nest, Fadell pushed big-box retailers to create a dedicated connected-home aisle so the category had a place to live in stores; the product is one step in a customer journey that also includes awareness, education, acquisition, onboarding, usage, support and loyalty; messaging is organized as why I want it, why I need it (pain and painkiller); write the press release before building; first-generation products run on vision and opinion, later generations on data.
 
 Sources: [Lex Fridman Podcast #294 transcript](https://podscripts.co/podcasts/lex-fridman-podcast/294-tony-fadell-iphone-ipod-and-nest), [TED: The first secret of great design](https://www.ted.com/talks/tony_fadell_the_first_secret_of_design_is_noticing), *Build: An Unorthodox Guide to Making Things Worth Making* (Harper Business, 2022).

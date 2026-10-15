@@ -9,21 +9,24 @@
 
 **Key findings**
 
-- 2 of 2 touchpoints collected; 2 findings
+- 2 of 2 touchpoints collected; 4 findings
+- 🔴 Acme Pour® used, but the mark is pending: 1 location in [Welcome email](../touchpoints/welcome-email.md)
 - 🔴 Perfect temperature is missing from App
 - 🔴 Retired wording "SmartKettle" (Product name): 1 location in [App setup strings](../touchpoints/app-setup.md)
+- 🟡 Acme Pour first mention without ™: 1 location in [Welcome email](../touchpoints/welcome-email.md)
 
 **Recommended improvements**
 
-1. Add [Perfect temperature](../../messaging/pillars/perfect-temperature.md) to App: "Exact to the degree"
-2. Replace "SmartKettle" with "Acme Pour" (1 location: [App setup strings](../touchpoints/app-setup.md))
-3. Review together: [Welcome email](../touchpoints/welcome-email.md), [App setup strings](../touchpoints/app-setup.md)
+1. Acme Pour® used, but the mark is pending ([Welcome email](../touchpoints/welcome-email.md)): Only registered marks may carry ®. Use ™ until registration.
+2. Add [Perfect temperature](../../messaging/pillars/perfect-temperature.md) to App: "Exact to the degree"
+3. Replace "SmartKettle" with "Acme Pour" (1 location: [App setup strings](../touchpoints/app-setup.md))
+4. Review together: [Welcome email](../touchpoints/welcome-email.md), [App setup strings](../touchpoints/app-setup.md)
 
 ### Touchpoints
 
 | Touchpoint | Channel | Workstream | Status | Messages present | Findings |
 |---|---|---|---|---|---|
-| [Welcome email](../touchpoints/welcome-email.md) | Email | Email/Klaviyo | ok | 3 | 0 |
+| [Welcome email](../touchpoints/welcome-email.md) | Email | Email/Klaviyo | ok | 3 | 2 |
 | [App setup strings](../touchpoints/app-setup.md) | App | App | ok | 0 | 2 |
 
 ### Findings
@@ -32,3 +35,5 @@
 |---|---|---|---|---|---|---|---|
 | 🔴 | missing | [Perfect temperature](../../messaging/pillars/perfect-temperature.md) | [App setup strings](../touchpoints/app-setup.md) | `channel:app` |  | planned for App but not found |  |
 | 🔴 | retired | [Product name](../../messaging/name-pour.md) | [App setup strings](../touchpoints/app-setup.md) | `app/strings.json#setup.title` | Set up your **SmartKettle** | retired wording "SmartKettle"; use "Acme Pour" |  |
+| 🔴 | trademark | Acme Pour® used, but the mark is pending | [Welcome email](../touchpoints/welcome-email.md) | `email/welcome.md:3` | Thanks for bringing **Acme Pour®** home. Welcome to precision brewing. Every cup, exactly right: pick 85… | Only registered marks may carry ®. Use ™ until registration. |  |
+| 🟡 | trademark | Acme Pour first mention without ™ | [Welcome email](../touchpoints/welcome-email.md) | `email/welcome.md:1` | Subject: Welcome to **Acme Pour** | Brand rule: Acme Pour™ on first mention per page. |  |

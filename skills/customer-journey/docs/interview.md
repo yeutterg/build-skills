@@ -39,6 +39,31 @@ Open the conversation by walking the person through it. It shows the work and re
 
 Done when: the goals have metrics, the stage is named, and the person agrees with a one-sentence description you read back.
 
+### Phase 1b: Names, marks and the word you want to own → `company.md` (`category`, `trademarks`)
+
+**The category word.**
+
+- What is one word or phrase you want the company to be known for inventing, or for defining the category of? (The term people will use when they recommend you without naming you.)
+- Does that term already exist? If people search for it today, who owns it in their minds: a competitor, academics, nobody? If it does not exist yet, what will it cost to teach it?
+- Can you define it in one sentence a customer would repeat? What is in the category and what is not?
+- Is there evidence you can be the credible owner: first to market, the best product, the research, the people?
+- Where must it appear for you to own it: homepage, product names, press, search, packaging, the help center, how support answers the phone?
+- How does it sit with the brand's positioning? (A science-sounding category word can pull against a design-first brand, and the other way round.)
+
+The crawl and audit show how often the term appears today. Record the term, a one-sentence definition, variants to count, and status (`claiming` or `established`). Then add it as a priority-1 message in `messaging/` so the activation matrix plans it everywhere it must appear.
+
+**Trademarks.**
+
+- Which names, marks and logos are registered, which are pending, and which are used without registration? In which countries and classes? Registration numbers?
+- Feature and technology names: are they marks you intend to protect, or descriptive names?
+- What are the usage rules: ™ or ® on first mention per page, on every mention, never in headlines? Exact capitalization and spacing?
+- Are any names at risk (a conflict with another company's mark, like a product name that collides with a well-known brand) or under review?
+- Who decides: in-house, a lawyer, nobody yet? (Record "nobody yet" as an open question.)
+
+Record each mark with `status` (`registered`, `pending`, `unregistered`, `unknown`), `symbol`, `usage`, and whether to check capitalization. The audit flags ® on anything not registered (high), missing symbols where the rules require them, and misspelled marks.
+
+A category term is usually generic and cannot be a trademark. Owning a category is about association, not legal protection; trademarks protect the names you put inside it.
+
 ### Phase 2: Products → `products/*.md`
 
 Start from the crawl's draft files. For each:

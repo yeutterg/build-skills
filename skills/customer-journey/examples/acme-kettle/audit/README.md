@@ -7,29 +7,30 @@ Last run: 2026-10-15
 
 | Findings | 🔴 High | 🟠 Medium | 🟡 Low | Activation coverage |
 |---|---|---|---|---|
-| 9 | 5 | 2 | 2 | 6/11 planned cells on-message |
+| 13 | 6 | 2 | 5 | 6/11 planned cells on-message |
 
 ### Executive summary
 
 **Key findings**
 
-- 9 findings: 5 high, 2 medium, 2 low
+- 13 findings: 6 high, 2 medium, 5 low
 - 6 of 11 planned message placements are on-message (55%)
-- Weakest stages: Education and Onboarding
+- Weakest stages: Onboarding and Education
 - 2 of 6 touchpoints are blind spots the audit cannot read yet
+- Category term "precision brewing" appears in 1 of 4 readable touchpoints
 - 1 open assumption behind the messaging still needs testing
+- 🔴 Acme Pour® used, but the mark is pending: 1 location in [Welcome email](touchpoints/welcome-email.md)
 - 🔴 Perfect temperature is missing from App
 - 🔴 Product page never says why temperature matters before selling precision: 1 location in [Acme Pour product page](touchpoints/pdp-pour.md)
 - 🔴 `health-claim` claims: 1 location in [Acme Pour product page](touchpoints/pdp-pour.md)
-- 🔴 Retired wording "Acme Kettle Pro" (Product name): 1 location in [Homepage](touchpoints/home.md)
 
 **Recommended improvements**
 
-1. Add [Perfect temperature](../messaging/pillars/perfect-temperature.md) to App: "Exact to the degree"
-2. Product page never says why temperature matters before selling precision ([Acme Pour product page](touchpoints/pdp-pour.md)): Open with the scorched-tea pain (one sentence) before the feature. Sam to draft; Claude to check against the Perfect temperature grid.
-3. Remove `health-claim` wording (1 location: [Acme Pour product page](touchpoints/pdp-pour.md)). Describe the experience (taste, temperature), not a health outcome.
-4. Replace "Acme Kettle Pro" with "Acme Pour" (1 location: [Homepage](touchpoints/home.md))
-5. Replace "SmartKettle" with "Acme Pour" (1 location: [App setup strings](touchpoints/app-setup.md))
+1. Acme Pour® used, but the mark is pending ([Welcome email](touchpoints/welcome-email.md)): Only registered marks may carry ®. Use ™ until registration.
+2. Add [Perfect temperature](../messaging/pillars/perfect-temperature.md) to App: "Exact to the degree"
+3. Product page never says why temperature matters before selling precision ([Acme Pour product page](touchpoints/pdp-pour.md)): Open with the scorched-tea pain (one sentence) before the feature. Sam to draft; Claude to check against the Perfect temperature grid.
+4. Remove `health-claim` wording (1 location: [Acme Pour product page](touchpoints/pdp-pour.md)). Describe the experience (taste, temperature), not a health outcome.
+5. Replace "Acme Kettle Pro" with "Acme Pour" (1 location: [Homepage](touchpoints/home.md))
 6. Make blind spots collectable, starting with [Retail box](touchpoints/box.md), [Instagram](touchpoints/instagram.md)
 7. Run a guided review of [App setup strings](touchpoints/app-setup.md) (3 collected touchpoints have never been reviewed)
 
@@ -37,14 +38,14 @@ Last run: 2026-10-15
 
 ```mermaid
 flowchart LR
-  awareness["Awareness<br/>1/2 collected<br/>2 findings"]:::high
-  education["Education<br/>1/1 collected<br/>5 findings"]:::high
+  awareness["Awareness<br/>1/2 collected<br/>3 findings"]:::high
+  education["Education<br/>1/1 collected<br/>6 findings"]:::high
   awareness --> education
   acquisition["Acquisition<br/>0/1 collected<br/>0 findings"]:::blind
   education --> acquisition
   product["Product<br/>no touchpoints mapped"]:::blind
   acquisition --> product
-  onboarding["Onboarding<br/>2/2 collected<br/>2 findings"]:::high
+  onboarding["Onboarding<br/>2/2 collected<br/>4 findings"]:::high
   product --> onboarding
   usage["Usage<br/>no touchpoints mapped"]:::blind
   onboarding --> usage
@@ -97,4 +98,5 @@ Touchpoints the audit cannot see yet. Customers can.
 | 🔴 | missing | [Perfect temperature](../messaging/pillars/perfect-temperature.md) | [App setup strings](touchpoints/app-setup.md) | `channel:app` |  | planned for App but not found |  |
 | 🔴 | retired | [Product name](../messaging/name-pour.md) | [App setup strings](touchpoints/app-setup.md) | `app/strings.json#setup.title` | Set up your **SmartKettle** | retired wording "SmartKettle"; use "Acme Pour" |  |
 | 🔴 | retired | [Product name](../messaging/name-pour.md) | [Homepage](touchpoints/home.md) | `site/index.html:5` | Shop **Acme Kettle Pro** | retired wording "Acme Kettle Pro"; use "Acme Pour" |  |
+| 🔴 | trademark | Acme Pour® used, but the mark is pending | [Welcome email](touchpoints/welcome-email.md) | `email/welcome.md:3` | Thanks for bringing **Acme Pour®** home. Welcome to precision brewing. Every cup, exactly right: pick 85… | Only registered marks may carry ®. Use ™ until registration. |  |
 | 🔴 | review | [Perfect temperature](../messaging/pillars/perfect-temperature.md) | [Acme Pour product page](touchpoints/pdp-pour.md) | `site/products/pour.html:3` | Exact to the degree: set 80 °C for green tea | Open with the scorched-tea pain (one sentence) before the feature. Sam to draft; Claude to check against the Perfect temperature grid. |  |

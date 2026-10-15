@@ -8,6 +8,20 @@ goals:
     metric: ""
     target: ""
     by: ""
+category:                 # the word or phrase you want to own
+  term: ""
+  definition: ""
+  variants: []            # other spellings to count
+  status: claiming        # claiming | established
+trademarks:
+  - mark: ""
+    status: unknown       # registered | pending | unregistered | unknown
+    symbol: "™"           # ™ or ®
+    usage: first-mention  # first-mention | every-mention | none
+    check_casing: true
+    jurisdictions: []
+    classes: []
+    registration: ""
 alternatives:             # what customers use instead
   - name: ""
     why: ""               # why people choose it

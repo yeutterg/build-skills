@@ -16,6 +16,17 @@ Summarized from `company.md`, `products/` and `customers/` (built in the intervi
 | Prove repeat demand from specialty tea drinkers | Orders from returning customers | 25% of orders | 2027-06 |
 | Cut setup support tickets | Tickets per 100 orders | under 3 | 2027-03 |
 
+**Category we want to own: precision brewing** (claiming)
+
+- Definition: Brewing tea and coffee at the exact temperature each one needs
+- Used in 1 of 4 readable touchpoints: [Welcome email](touchpoints/welcome-email.md) (1)
+
+**Trademarks**
+
+| Mark | Status | Symbol | Usage rule | Jurisdictions | Classes | Registration |
+|---|---|---|---|---|---|---|
+| Acme Pour | pending | ™ | first-mention | US | 11 |  |
+
 **What customers use instead**
 
 | Alternative | Why people choose it | Our edge |

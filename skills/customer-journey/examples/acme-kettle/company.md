@@ -12,6 +12,19 @@ goals:
     metric: Tickets per 100 orders
     target: under 3
     by: 2027-03
+category:
+  term: precision brewing
+  definition: Brewing tea and coffee at the exact temperature each one needs
+  variants: [precision-brewing]
+  status: claiming
+trademarks:
+  - mark: Acme Pour
+    status: pending
+    symbol: "™"
+    usage: first-mention
+    check_casing: true
+    jurisdictions: [US]
+    classes: [11]
 alternatives:
   - name: Stovetop kettle and thermometer
     why: Cheap and familiar

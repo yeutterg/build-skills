@@ -1,4 +1,12 @@
 {
+ "category": {
+  "app-setup": 0,
+  "box": null,
+  "home": 0,
+  "instagram": null,
+  "pdp-pour": 0,
+  "welcome-email": 1
+ },
  "findings": [
   {
    "channel": "product-page",
@@ -59,6 +67,21 @@
    "workstream": "Shopify/Web"
   },
   {
+   "channel": "email",
+   "check": "trademark",
+   "detail": "Only registered marks may carry ®. Use ™ until registration.",
+   "excerpt": "Thanks for bringing **Acme Pour®** home. Welcome to precision brewing. Every cup, exactly right: pick 85…",
+   "fp": "fe9b62f4fe",
+   "group": "4f94874aca",
+   "location": "email/welcome.md:3",
+   "rule": "Acme Pour:registered-symbol",
+   "severity": "high",
+   "stage": "onboarding",
+   "title": "Acme Pour® used, but the mark is pending",
+   "touchpoint": "welcome-email",
+   "workstream": "Email/Klaviyo"
+  },
+  {
    "channel": "product-page",
    "check": "missing",
    "excerpt": "",
@@ -100,6 +123,51 @@
    "suggest": "",
    "touchpoint": "home",
    "workstream": "Shopify/Web"
+  },
+  {
+   "channel": "website",
+   "check": "trademark",
+   "detail": "Brand rule: Acme Pour™ on first mention per page.",
+   "excerpt": "**Acme Pour**",
+   "fp": "5b2881ed32",
+   "group": "fd76573f2c",
+   "location": "site/index.html:2",
+   "rule": "Acme Pour:first-mention",
+   "severity": "low",
+   "stage": "awareness",
+   "title": "Acme Pour first mention without ™",
+   "touchpoint": "home",
+   "workstream": "Shopify/Web"
+  },
+  {
+   "channel": "product-page",
+   "check": "trademark",
+   "detail": "Brand rule: Acme Pour™ on first mention per page.",
+   "excerpt": "**Acme Pour**",
+   "fp": "dcf406c9f1",
+   "group": "fd76573f2c",
+   "location": "site/products/pour.html:1",
+   "rule": "Acme Pour:first-mention",
+   "severity": "low",
+   "stage": "education",
+   "title": "Acme Pour first mention without ™",
+   "touchpoint": "pdp-pour",
+   "workstream": "Shopify/Web"
+  },
+  {
+   "channel": "email",
+   "check": "trademark",
+   "detail": "Brand rule: Acme Pour™ on first mention per page.",
+   "excerpt": "Subject: Welcome to **Acme Pour**",
+   "fp": "86b75fb133",
+   "group": "fd76573f2c",
+   "location": "email/welcome.md:1",
+   "rule": "Acme Pour:first-mention",
+   "severity": "low",
+   "stage": "onboarding",
+   "title": "Acme Pour first mention without ™",
+   "touchpoint": "welcome-email",
+   "workstream": "Email/Klaviyo"
   }
  ],
  "matrix": {

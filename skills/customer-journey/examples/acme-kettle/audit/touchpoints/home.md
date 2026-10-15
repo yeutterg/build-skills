@@ -16,6 +16,7 @@
 
 - Carries 4 of 4 messages planned for Website
 - 🔴 Retired wording "Acme Kettle Pro" (Product name)
+- 🟡 Acme Pour first mention without ™
 - 🟡 `superlative` claims
 
 **Recommended improvements**
@@ -38,3 +39,4 @@
 |---|---|---|---|---|---|---|
 | 🔴 | retired | [Product name](../../messaging/name-pour.md) | `site/index.html:5` | Shop **Acme Kettle Pro** | retired wording "Acme Kettle Pro"; use "Acme Pour" |  |
 | 🟡 | claim | rule `superlative` | `site/index.html:4` | Meet the **world's first** kettle that boils at a whisper. | guardrail |  |
+| 🟡 | trademark | Acme Pour first mention without ™ | `site/index.html:2` | **Acme Pour** | Brand rule: Acme Pour™ on first mention per page. |  |

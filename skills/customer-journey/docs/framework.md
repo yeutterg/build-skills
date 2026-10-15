@@ -44,6 +44,7 @@ The book's matrix is a plan. The audit fills a second, **observed** matrix from 
 | `retired` | scan | Old names, taglines and phrasing still live |
 | `claim` | scan | Guardrail violations (medical claims, superlatives, legal) |
 | `missing` | scan | A message planned for a channel that no collected touchpoint carries |
+| `trademark` | scan | ® on unregistered marks, missing ™/® where the rules require it, misspelled marks |
 | `contradiction`, `stage-fit`, `pain-first`, `promise-break`, `paraphrase`, `voice` | judgment pass | What only a reader can see |
 | `review` | guided human + AI session | Whether the touchpoint works for the customer at this stage, decided together |
 | `walk` | persona walkthrough | Friction in the live journey |

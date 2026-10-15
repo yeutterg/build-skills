@@ -1,8 +1,8 @@
 {
  "README": {
-  "basis": "45e2c215f7",
+  "basis": "9ea0489588",
   "file": "audit/README.md",
-  "findings": 9
+  "findings": 13
  },
  "matrix": {
   "basis": "e9253d817c",
@@ -15,14 +15,14 @@
   "findings": 0
  },
  "stage:awareness": {
-  "basis": "5d6ded7097",
+  "basis": "7d6b8c8136",
   "file": "audit/stages/awareness.md",
-  "findings": 2
+  "findings": 3
  },
  "stage:education": {
-  "basis": "8ce3aec626",
+  "basis": "eb89330740",
   "file": "audit/stages/education.md",
-  "findings": 5
+  "findings": 6
  },
  "stage:loyalty": {
   "basis": "da39a3ee5e",
@@ -30,9 +30,9 @@
   "findings": 0
  },
  "stage:onboarding": {
-  "basis": "cf47404884",
+  "basis": "07135d7e04",
   "file": "audit/stages/onboarding.md",
-  "findings": 2
+  "findings": 4
  },
  "stage:product": {
   "basis": "da39a3ee5e",
@@ -60,9 +60,9 @@
   "findings": 0
  },
  "touchpoint:home": {
-  "basis": "5d6ded7097",
+  "basis": "7d6b8c8136",
   "file": "audit/touchpoints/home.md",
-  "findings": 2
+  "findings": 3
  },
  "touchpoint:instagram": {
   "basis": "da39a3ee5e",
@@ -70,13 +70,13 @@
   "findings": 0
  },
  "touchpoint:pdp-pour": {
-  "basis": "8ce3aec626",
+  "basis": "eb89330740",
   "file": "audit/touchpoints/pdp-pour.md",
-  "findings": 5
+  "findings": 6
  },
  "touchpoint:welcome-email": {
-  "basis": "da39a3ee5e",
+  "basis": "7bc8373210",
   "file": "audit/touchpoints/welcome-email.md",
-  "findings": 0
+  "findings": 2
  }
 }
