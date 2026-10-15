@@ -13,6 +13,7 @@ Last run: 2026-10-15
 
 **Key findings**
 
+- One metric that matters: Monthly orders of Acme Pour, target 1,000 a month by 2027-06
 - 13 findings: 6 high, 2 medium, 5 low
 - 6 of 11 planned message placements are on-message (55%)
 - Weakest stages: Onboarding and Education

@@ -31,7 +31,10 @@ Open the conversation by walking the person through it. It shows the work and re
 
 - What does the company do, in one sentence a customer would use? In one sentence an investor would use? Why are they different?
 - Why does it exist? What did the founders see that others missed? (Fadell: the *why* before the *what*.)
-- What are the goals for the next 12 months, with a metric and a target each? Revenue, units, margin, retention, a launch, a market. Which one wins when they conflict?
+- **What is the one metric that matters?** The single number that, if it moves, means the company is working right now: revenue, units, active owners, retention, conversion. Everything else should explain or drive it. Ask for the target, a stretch target, the date, today's baseline, and why this metric and not another.
+- Break it down together: which drivers multiply into it (traffic x conversion x price, or customers x repeat rate), what each must be, and what each is today. Flag every driver with no baseline as an assumption.
+- Pressure-test it: is it the right metric for the stage (a v1 proves demand; a v3 optimizes profit)? What would you refuse to do to hit it (discounts, burning supply, claims you cannot back)? Which constraint binds first: demand, supply, cash, or team?
+- What other goals matter for the next 12 months (a launch, a market, a hire), and which one wins when they conflict with the one metric?
 - What stage is each product line at: v1 (proving the idea, early adopters), v2 (fixing what's wrong, widening), v3 (optimizing the business)? Fadell's three generations change what marketing must do.
 - What constraints shape messaging: regulation, claims you cannot make, certifications, channel agreements, budget, team size?
 - What is this work for: a rewrite of the website, a launch, ongoing improvement, fixing a known problem? What does success look like in three months?

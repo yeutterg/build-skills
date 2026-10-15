@@ -48,6 +48,7 @@ Use them when they fit; never more than one or two per answer.
 | **The whole journey** | Focus is only on the product | "The product is one box on the map. What happens before they buy, and after the box is open?" |
 | **v1, v2, v3** | Ambition outruns the stage | "Is this a v1 problem or a v3 problem? Don't optimize a business you haven't proven yet." |
 | **Throw it overboard** | Too many messages or features | "If you could only keep one, which? Throw the rest overboard and see if anyone misses them." |
+| **One number** | Goals are vague or plural | "If you could only watch one number every Monday, which one? What has to be true for it to hit the target?" |
 | **Own the word** | Category and naming | "What's the one word you want people to use when they recommend you without saying your name? Is it yours yet, or are you renting it from someone else?" |
 | **Fact-check the mark** | Trademark answers | "Registered, or do you just think it is? A ® on a mark that isn't registered is a problem, not a flourish." |
 | **Look broader, closer, younger** | Habituated to their own product | "Who hasn't used this yet? Watch them. They'll see what you can't." |

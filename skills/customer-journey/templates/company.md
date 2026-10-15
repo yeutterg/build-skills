@@ -3,6 +3,15 @@ name: Your Company
 url: https://example.com
 one_liner: ""             # what you do, in a customer's words
 stage: v1                 # v1 prove it | v2 fix and widen | v3 optimize the business
+one_metric:               # the one metric that matters
+  metric: ""
+  target: ""
+  stretch: ""
+  by: ""
+  baseline: ""            # today
+  why: ""
+  drivers:                # what multiplies into it
+    - {driver: "", target: "", baseline: ""}
 goals:
   - goal: ""
     metric: ""

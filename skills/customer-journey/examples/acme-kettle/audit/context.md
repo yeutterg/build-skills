@@ -11,6 +11,18 @@ Summarized from `company.md`, `products/` and `customers/` (built in the intervi
 - Stage: v1
 - Website: https://acme-kettle.example
 
+**The one metric that matters: Monthly orders of Acme Pour**
+
+- Target: 1,000 a month
+- By: 2027-06
+- Today: 220 a month
+- Why this metric: Repeat demand from tea drinkers is the thing to prove at v1
+
+| Driver | Target | Today |
+|---|---|---|
+| Product page sessions | 40 | 11 |
+| Conversion rate | 2.5% | 2.0% |
+
 | Goal | Metric | Target | By |
 |---|---|---|---|
 | Prove repeat demand from specialty tea drinkers | Orders from returning customers | 25% of orders | 2027-06 |

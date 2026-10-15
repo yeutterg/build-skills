@@ -880,6 +880,18 @@ class Renderer:
             for key, label in (("one_liner", "In one line"), ("stage", "Stage"), ("url", "Website")):
                 if c.get(key):
                     L.append(f"- {label}: {c[key]}")
+            omtm = c.get("one_metric") or {}
+            if isinstance(omtm, dict) and omtm.get("metric"):
+                L += ["", f"**The one metric that matters: {omtm['metric']}**", ""]
+                for key, label in (("target", "Target"), ("stretch", "Stretch"), ("by", "By"), ("baseline", "Today"), ("why", "Why this metric")):
+                    if omtm.get(key):
+                        L.append(f"- {label}: {omtm[key]}")
+                drivers = as_list(omtm.get("drivers"))
+                if drivers:
+                    L += ["", "| Driver | Target | Today |", "|---|---|---|"]
+                    for d in drivers:
+                        d = d if isinstance(d, dict) else {"driver": d}
+                        L.append(f"| {d.get('driver', '')} | {d.get('target', '')} | {d.get('baseline', '')} |")
             goals = as_list(c.get("goals"))
             if goals:
                 L += ["", "| Goal | Metric | Target | By |", "|---|---|---|---|"]
@@ -1029,6 +1041,9 @@ class Renderer:
             seen = [t for t, n in hits.items() if n is not None]
             using = [t for t in seen if hits[t]]
             facts.append(f"Category term \"{cat}\" appears in {len(using)} of {len(seen)} readable touchpoints")
+        omtm = self.ws.company.get("one_metric") or {}
+        if isinstance(omtm, dict) and omtm.get("metric"):
+            facts.insert(0, f"One metric that matters: {omtm['metric']}" + (f", target {omtm['target']}" if omtm.get("target") else "") + (f" by {omtm['by']}" if omtm.get("by") else ""))
         open_ = [a for a in self.ws.assumptions if a.get("status", "open") == "open"]
         if open_:
             n = len(open_)

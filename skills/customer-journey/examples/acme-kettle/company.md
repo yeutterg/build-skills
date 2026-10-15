@@ -3,6 +3,15 @@ name: Acme Kettle
 url: https://acme-kettle.example
 one_liner: A kettle that makes every cup taste the way it should
 stage: v1
+one_metric:
+  metric: Monthly orders of Acme Pour
+  target: 1,000 a month
+  by: 2027-06
+  baseline: 220 a month
+  why: Repeat demand from tea drinkers is the thing to prove at v1
+  drivers:
+    - {driver: Product page sessions, target: 40,000 a month, baseline: 11,000 a month}
+    - {driver: Conversion rate, target: 2.5%, baseline: 2.0%}
 goals:
   - goal: Prove repeat demand from specialty tea drinkers
     metric: Orders from returning customers
